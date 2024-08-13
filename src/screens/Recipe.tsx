@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import Search from '../assets/Search';
 import Filter from '../assets/Filter';
@@ -34,7 +35,7 @@ const Recipes = () => {
   return (
     <>
       <View style={styles.container}>
-        <View style={styles.inputContainer}>
+        <View style={[styles.inputContainer]}>
           <View style={styles.input}>
             <Search />
             <TextInput
@@ -48,29 +49,23 @@ const Recipes = () => {
           </TouchableOpacity>
         </View>
         <View>
-          <ScrollView
+          <FlatList
             horizontal
-            contentContainerStyle={styles.categoryContainer}
-            showsHorizontalScrollIndicator={false}>
-            {CATEGORIES.map((category, index) => (
-              <TouchableOpacity key={index} style={[styles.badge]}>
-                <Text
-                  style={[
-                    // styles.badge,
-                    {color: 'black'},
-                    index === CATEGORIES.length - 1 && styles.lastBadge,
-                  ]}>
-                  {category.text}
-                </Text>
+            data={CATEGORIES}
+            contentContainerStyle={{paddingHorizontal: 20, gap: 10}}
+            renderItem={({item}) => (
+              <TouchableOpacity style={[styles.badge]}>
+                <Text style={[{color: '#18270B'}]}>{item.text}</Text>
               </TouchableOpacity>
-            ))}
-          </ScrollView>
+            )}
+          />
         </View>
-        <ScrollView showsVerticalScrollIndicator style={styles.recipeList}>
-          {RECIPES.map((recipe, index) => (
-            <RecipeCard recipe={recipe} key={index} cardStyle={{width: 353}} />
-          ))}
-        </ScrollView>
+
+        <FlatList
+          data={RECIPES}
+          contentContainerStyle={{paddingHorizontal: 20}}
+          renderItem={({item}) => <RecipeCard recipe={item} />}
+        />
       </View>
       <CustomBottomSheet
         bottomSheetRef={bottomSheetRef}
@@ -111,18 +106,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: 20,
-    flexDirection: 'column',
     gap: 16,
+    paddingTop: 16,
   },
   inputContainer: {
-    maxWidth: 393,
     flexDirection: 'row',
-    marginHorizontal: 'auto',
-    gap: 12,
+    width: '100%',
+    paddingHorizontal: 20,
+    justifyContent: 'space-between',
   },
   input: {
-    width: 285,
     borderRadius: 12,
     borderWidth: 0.5,
     borderColor: '#D8DADC',
@@ -133,6 +126,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
+    width: '82%',
   },
   textInput: {
     padding: 0,
@@ -141,26 +135,13 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontFamily: 'Avenir',
   },
-  categoryContainer: {
-    paddingStart: 20,
-    paddingEnd: 10,
-  },
   badge: {
     backgroundColor: '#FFF',
     color: '#18270B',
     borderRadius: 50,
     paddingHorizontal: 20,
     paddingVertical: 5,
-    textAlign: 'center',
-    marginHorizontal: 8,
     borderWidth: 1,
     borderColor: '#D8DADC',
-  },
-  lastBadge: {
-    marginEnd: 20,
-  },
-  recipeList: {
-    maxWidth: 353,
-    margin: 'auto',
   },
 });

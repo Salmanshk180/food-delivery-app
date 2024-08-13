@@ -2,53 +2,42 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SplashScreen from '../screens/SplashScreen';
 import BottomTab from './BottomTab';
 import RecipeDetail from '../screens/RecipeDetail';
-import {Alert, Button, TouchableOpacity} from 'react-native';
-import Back from '../assets/Back';
+import {TouchableOpacity} from 'react-native';
 import Like from '../assets/Like';
+import Header from '../components/Header/Header';
+import Back from '../assets/Back';
 
 export default function MainStack() {
   const Stack = createNativeStackNavigator();
   return (
-    <Stack.Navigator initialRouteName="SplashScreen">
-      <Stack.Screen
-        name="SplashScreen"
-        component={SplashScreen}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="BottomTab"
-        component={BottomTab}
-        options={{headerShown: false, headerBackVisible: false}}
-      />
+    <Stack.Navigator
+      initialRouteName="SplashScreen"
+      screenOptions={{headerShown: false}}>
+      <Stack.Screen name="SplashScreen" component={SplashScreen} />
+      <Stack.Screen name="BottomTab" component={BottomTab} />
       <Stack.Screen
         name="RecipeDetail"
         component={RecipeDetail}
-        options={({route, navigation}: any) => ({
+        options={{
           headerShown: true,
-          headerBackVisible: false,
-          title: `${route.params?.title}`,
-          headerTitleStyle: {fontSize: 20, fontWeight: '800'},
-          headerTitleAlign: 'center',
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Back />
-            </TouchableOpacity>
+          header: ({route}: any) => (
+            <Header
+              title={route.params.title}
+              isBack
+              backIcon={<Back/>}
+              icon={
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: '#E8FFD6',
+                    padding: 8,
+                    borderRadius: 50,
+                  }}>
+                  <Like />
+                </TouchableOpacity>
+              }
+            />
           ),
-          headerRight: () => (
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#E8FFD6',
-                borderRadius: 50,
-                width: 36,
-                height: 36,
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderWidth:1
-              }}>
-              <Like />
-            </TouchableOpacity>
-          ),
-        })}
+        }}
       />
     </Stack.Navigator>
   );

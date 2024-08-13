@@ -48,10 +48,10 @@ const Feed = () => {
         <FlatList
           data={FEEDSDATA}
           numColumns={2}
-          centerContent
+          // centerContent
           contentContainerStyle={{
             gap: 17,
-            alignItems: 'center',
+            // alignItems: 'center',
             paddingHorizontal: 20,
           }}
           columnWrapperStyle={{justifyContent: 'space-between', width: '100%'}}

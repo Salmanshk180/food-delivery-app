@@ -5,21 +5,21 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  FlatList,
+  Dimensions,
 } from 'react-native';
 import React from 'react';
 import Badge from '../components/Badge/Badge';
-import {CATEGORIES, RECIPES} from '../constants/category';
+import {RECIPES} from '../constants/category';
 import RecipeCard from '../components/cards/RecipeCard';
 
 export default function RecipeDetail({route}: any) {
-  const {title, data} = route.params;
+  const {data} = route.params;
+  const {width} = Dimensions.get('screen');
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Image
-          source={data?.image}
-          style={{borderRadius: 5, width: 353, height: 229, objectFit: 'cover'}}
-        />
+        <Image source={data?.image} style={{borderRadius: 5, margin: 'auto'}} />
         <View style={styles.detailContainer}>
           <Badge
             title={data.time + ' min.'}
@@ -36,26 +36,23 @@ export default function RecipeDetail({route}: any) {
           <Text style={{color: '#18270B', fontSize: 18, fontWeight: '800'}}>
             Nutritions
           </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              justifyContent: 'space-between',
-              gap: 11,
-            }}>
-            {data?.nutritions.map((nutrition: any, index: number) => (
+          <FlatList
+            data={data?.nutritions}
+            columnWrapperStyle={{justifyContent: 'space-between'}}
+            contentContainerStyle={{gap: 10}}
+            numColumns={2}
+            renderItem={({item}) => (
               <Badge
-                title={nutrition.title}
+                title={item.title}
                 titleColor="#18270B"
                 subTitleColor="#76BC3F"
-                subTitle={nutrition.value}
+                subTitle={item.value}
                 containerStyle={styles.nutritionBadge}
                 titleStyle={styles.nutritionBadgeTitle}
                 subTitleStyle={styles.nutritionBadgeSubTitle}
-                key={index}
               />
-            ))}
-          </View>
+            )}
+          />
         </View>
         <View style={styles.nutritionsContainer}>
           <Text style={{color: '#18270B', fontSize: 18, fontWeight: '800'}}>
@@ -84,24 +81,25 @@ export default function RecipeDetail({route}: any) {
           <Text style={{color: '#18270B', fontSize: 18, fontWeight: '800'}}>
             Ingredients
           </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              justifyContent: 'flex-start',
-              gap: 10,
-            }}>
-            {data?.ingredients.map((data: any, index: number) => (
+          <FlatList
+            data={data?.ingredients}
+            // contentContainerStyle={{gap: 11}}
+            // columnWrapperStyle={{justifyContent:'space-between' }}
+            numColumns={3}
+            contentContainerStyle={{gap:10}}
+            columnWrapperStyle={{gap:10,flexWrap:'wrap'}}
+            // horizontal
+            renderItem={({item}) => (
               <Badge
-                title={data}
+                title={item}
                 titleColor="#18270B"
                 containerStyle={styles.canHaveItInBadge}
                 titleStyle={styles.nutritionBadgeTitle}
                 subTitleStyle={styles.nutritionBadgeSubTitle}
-                key={index}
               />
-            ))}
-          </View>
+              
+            )}
+          />
         </View>
         <View
           style={{
@@ -109,7 +107,6 @@ export default function RecipeDetail({route}: any) {
             justifyContent: 'space-between',
             alignItems: 'center',
             width: '100%',
-            maxWidth: 353,
             gap: 14,
           }}>
           <View
@@ -118,7 +115,7 @@ export default function RecipeDetail({route}: any) {
               justifyContent: 'space-between',
               alignItems: 'center',
               width: '100%',
-              maxWidth: 353,
+              paddingHorizontal: 20,
             }}>
             <Text style={{color: '#18270B', fontSize: 18, fontWeight: '800'}}>
               Similar recipes for you
@@ -127,24 +124,21 @@ export default function RecipeDetail({route}: any) {
               <Text style={{color: '#76BC3F'}}>See all</Text>
             </TouchableOpacity>
           </View>
-          <ScrollView
+          <FlatList
+            data={RECIPES}
             horizontal
-            contentContainerStyle={{
-              gap: 18,
-              paddingBottom: 14,
-            }}>
-            {RECIPES.map((recipe, index) => (
-              <RecipeCard
-                recipe={recipe}
-                key={index}
-                isTouchEffectDisabled
-                detailStyle={{flexDirection: 'column', gap: 5}}
-                isTimer={false}
-                cardStyle={{width:280}}
-                
-              />
-            ))}
-          </ScrollView>
+            contentContainerStyle={{paddingHorizontal: 20, gap: 18}}
+            renderItem={({item}) => (
+              <View style={{width:width*0.8}}>
+                <RecipeCard
+                  recipe={item}
+                  isTouchEffectDisabled
+                  detailStyle={{flexDirection: 'column', gap: 5}}
+                  isTimer={false}
+                />
+              </View>
+            )}
+          />
         </View>
       </View>
     </ScrollView>
@@ -155,7 +149,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
-    alignItems: 'center',
     gap: 24,
     paddingTop: 14,
     backgroundColor: '#fff',
@@ -164,12 +157,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     gap: 20,
-    width: 353,
+    paddingHorizontal: 20,
   },
   nutritionsContainer: {
     flexDirection: 'column',
     gap: 12,
-    width: 353,
+    paddingHorizontal: 20,
   },
   nutritionBadge: {
     flexDirection: 'row',
@@ -178,8 +171,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     backgroundColor: '#F1F8EC',
     borderRadius: 50,
-    width: 165,
-    height: 60,
     alignItems: 'center',
   },
   nutritionBadgeTitle: {
@@ -193,7 +184,7 @@ const styles = StyleSheet.create({
   canHaveItInBadge: {
     backgroundColor: '#F1F8EC',
     borderRadius: 8,
-    width: 111,
-    height: 46,
+    maxWidth: 111,
+    maxHeight: 46,
   },
 });

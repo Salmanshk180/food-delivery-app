@@ -5,6 +5,7 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Logo from '../assets/Logo';
@@ -17,8 +18,14 @@ import FEMALE2 from '../assets/Female2.png';
 import FEMALE3 from '../assets/Female3.png';
 export function Home() {
   const [selectedDate, setSelectedDate] = useState('');
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const notesText =
+    'Patient needs to reduce daily calorie intake and increase consumption Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla at tenetur ad distinctio velit. Ipsam eius suscipit deserunt quibusdam, expedita totam cum incidunt ea commodi iure reiciendis sint voluptatum vero, quasi quidem repudiandae consequuntur animi, molestias dicta magnam? Quisquam, eius.';
+  const maxLength = 80;
+  const truncatedText = notesText.slice(0, maxLength) + '...';
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Logo />
         <Notification />
@@ -75,6 +82,7 @@ export function Home() {
           <FlatList
             data={[FEMALE1, FEMALE2, FEMALE3, FEMALE1, FEMALE2, FEMALE3]}
             contentContainerStyle={{gap: 11, paddingHorizontal: 20}}
+            showsHorizontalScrollIndicator={false}
             horizontal
             renderItem={item => (
               <Image
@@ -85,24 +93,23 @@ export function Home() {
             )}
           />
         </View>
-        <View style={{paddingHorizontal: 20}}>
-          <Text
-            numberOfLines={2}
-            ellipsizeMode="tail"
-            style={{color: '#303030', fontWeight: '800', fontSize: 18}}>
+        <View style={{paddingHorizontal: 20, position: 'relative'}}>
+          <Text style={{color: '#303030', fontWeight: '800', fontSize: 18}}>
             Notes:
-            <Text style={{fontSize: 16, fontWeight: '500'}}>
-              Patient needs to reduce daily calorie intake and increase
-              consumption Lorem ipsum dolor sit amet consectetur adipisicing
-              elit. Nulla at tenetur ad distinctio velit. Ipsam eius suscipit
-              deserunt quibusdam, expedita totam cum incidunt ea commodi iure
-              reiciendis sint voluptatum vero, quasi quidem repudiandae
-              consequuntur animi, molestias dicta magnam? Quisquam, eius.
+            <Text style={{color: '#303030', fontWeight: '500', fontSize: 16}}>
+              {isExpanded ? notesText : truncatedText}
             </Text>
           </Text>
+          <TouchableOpacity
+            style={styles.readMoreButton}
+            onPress={() => setIsExpanded(!isExpanded)}>
+            <Text style={styles.readMoreText}>
+              {isExpanded ? 'Read less' : 'Read more...'}
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -142,5 +149,17 @@ const styles = StyleSheet.create({
     borderColor: '#838383',
     paddingVertical: 14,
     paddingHorizontal: 10,
+  },
+  readMoreButton: {
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#fff',
+    paddingHorizontal: 11,
+  },
+  readMoreText: {
+    color: 'green',
+    fontSize: 16,
+    fontWeight: '800',
   },
 });
