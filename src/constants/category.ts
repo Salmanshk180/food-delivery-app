@@ -28,7 +28,7 @@ export const FEEDS = [
 export const RECIPES = [
   {
     id: 1,
-    name: 'Raw salmon toastgfuegfegfgsigshguihsdjkgdkbkfbjksdjkghruighsjbjkbkjdhjf',
+    name: 'Raw salmon toast',
     time: 15,
     isVeg: false,
     image: RawSalmonToast,

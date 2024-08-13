@@ -76,13 +76,10 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: '#fff',
     borderRadius: 10,
-    marginBottom: 10,
-    width: 353,
-    height: 220,
+    marginBottom: 18,
   },
   image: {
-    width: '100%',
-    height: 140,
+    width: "100%",
     borderRadius: 10,
     resizeMode: 'cover',
   },
@@ -91,7 +88,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingTop: 10,
-    paddingHorizontal: 10,
   },
   textContainer: {
     flexDirection: 'row',

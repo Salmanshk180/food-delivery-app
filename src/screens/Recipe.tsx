@@ -67,7 +67,7 @@ const Recipes = () => {
         </View>
         <ScrollView showsVerticalScrollIndicator style={styles.recipeList}>
           {RECIPES.map((recipe, index) => (
-            <RecipeCard recipe={recipe} key={index} />
+            <RecipeCard recipe={recipe} key={index} cardStyle={{width:353}} />
           ))}
         </ScrollView>
       </View>
@@ -156,6 +156,7 @@ const styles = StyleSheet.create({
   recipeList: {
     maxWidth: 353,
     margin: 'auto',
+
   },
   bottomSheet: {
     borderRadius: 25,

@@ -48,13 +48,13 @@ const Feed = () => {
         <FlatList
           data={FEEDSDATA}
           numColumns={2}
+          centerContent
           contentContainerStyle={{
-            justifyContent: 'flex-start',
-            gap: 20,
+            gap: 17,
+            alignItems: 'center',
             paddingHorizontal: 20,
-            paddingBottom: 20,
           }}
-          columnWrapperStyle={{justifyContent: 'space-between'}}
+          columnWrapperStyle={{justifyContent: 'space-between', width: '100%'}}
           renderItem={feed => <FeedCard data={feed.item} />}
           keyExtractor={feed => feed.id.toString()}
         />
@@ -70,7 +70,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingTop: 20,
-    flexDirection: 'column',
     gap: 16,
   },
   input: {

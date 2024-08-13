@@ -110,7 +110,7 @@ export default function RecipeDetail({route}: any) {
             alignItems: 'center',
             width: '100%',
             maxWidth: 353,
-            gap: 16,
+            gap: 14,
           }}>
           <View
             style={{
@@ -127,26 +127,25 @@ export default function RecipeDetail({route}: any) {
               <Text style={{color: '#76BC3F'}}>See all</Text>
             </TouchableOpacity>
           </View>
+          <ScrollView
+            horizontal
+            contentContainerStyle={{
+              gap: 18,
+              paddingBottom: 14,
+            }}>
+            {RECIPES.map((recipe, index) => (
+              <RecipeCard
+                recipe={recipe}
+                key={index}
+                isTouchEffectDisabled
+                detailStyle={{flexDirection: 'column', gap: 5}}
+                isTimer={false}
+                cardStyle={{width:280}}
+                
+              />
+            ))}
+          </ScrollView>
         </View>
-        <ScrollView
-          horizontal
-          contentContainerStyle={{
-            gap: 18,
-            paddingBottom: 14,
-            paddingStart: 20,
-            
-          }}>
-          {RECIPES.map((recipe, index) => (
-            <RecipeCard
-              recipe={recipe}
-              key={index}
-              isTouchEffectDisabled
-              // cardStyle={{maxWidth: 280 ,index === RECIPES.length - 1 && {marginEnd: 20}}}
-              detailStyle={{flexDirection: 'column', gap: 5}}
-              isTimer={false}
-            />
-          ))}
-        </ScrollView>
       </View>
     </ScrollView>
   );

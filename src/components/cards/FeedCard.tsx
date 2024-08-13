@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
   imageBackground: {
     width: 168,
-    height: 231,
+    height: '100%',
   },
   overlay: {
     position: 'absolute',
@@ -48,16 +48,16 @@ const styles = StyleSheet.create({
     paddingVertical: 9,
     gap: 5,
     backgroundColor: 'rgba(0,0,0,0.5)',
-    width: '100%',
-    height: '100%',
+    // width: '100%',
+    // height: '100%',
     borderRadius: 10,
   },
   textContainer: {
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'flex-end',
-    height: '100%',
-    width: '100%',
+    // height: '100%',
+    // width: '100%',
   },
   titleText: {
     color: '#FFF',
