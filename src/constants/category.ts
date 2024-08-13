@@ -201,3 +201,19 @@ export const FEEDSDATA = [
     date: '1 day ago',
   },
 ];
+
+export enum TIME_TO_MAKE {
+  TenMin = '10 Min',
+  FifteenMin = '15 Min',
+  TwentyMin = '20 Min',
+  OneHour = '1:00 Hr',
+}
+export enum FOOD_TYPE {
+  PureVeg = 'Pure Veg',
+  NonVeg = 'Non Veg',
+}
+export enum CAN_HAVE_IN {
+  Breakfast = 'Breakfast',
+  Lunch = 'Lunch',
+  Dinner = 'Dinner',
+}

@@ -5,30 +5,31 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-  Button,
 } from 'react-native';
 import Search from '../assets/Search';
 import Filter from '../assets/Filter';
-import {CATEGORIES, RECIPES} from '../constants/category';
+import {
+  CAN_HAVE_IN,
+  CATEGORIES,
+  FOOD_TYPE,
+  RECIPES,
+  TIME_TO_MAKE,
+} from '../constants/category';
 import RecipeCard from '../components/cards/RecipeCard';
-import BottomSheet, {
-  BottomSheetModal,
-  BottomSheetView,
-} from '@gorhom/bottom-sheet';
-import {useCallback, useMemo, useRef} from 'react';
-import {CheckBox} from 'react-native-elements';
+import {useCallback, useRef, useState} from 'react';
+import CustomBottomSheet from '../components/BottomSheet/BottomSheet';
+import {BottomSheetMethods} from '@gorhom/bottom-sheet/lib/typescript/types';
+import Filters from '../components/Filters/Filters';
 
 const Recipes = () => {
-  const bottomSheetRef = useRef<BottomSheetModal>(null);
-
-  const snapPoints = useMemo(() => ['50%', '90%'], []);
-
-  const handlePresentModalPress = useCallback(() => {
+  const bottomSheetRef = useRef<BottomSheetMethods>(null);
+  const OpenBottomSheet = useCallback(() => {
     bottomSheetRef.current?.expand();
   }, []);
-  const handleDismissedModalPress = useCallback(() => {
+  const CloseBottomSheet = useCallback(() => {
     bottomSheetRef.current?.close();
   }, []);
+  const [checkedValues, setCheckedValues] = useState<string[]>([]);
 
   return (
     <>
@@ -42,59 +43,64 @@ const Recipes = () => {
               placeholderTextColor={'#838383'}
             />
           </View>
-          <TouchableOpacity onPress={handlePresentModalPress}>
+          <TouchableOpacity onPress={OpenBottomSheet}>
             <Filter />
           </TouchableOpacity>
         </View>
         <View>
-        <ScrollView
-          horizontal
-          contentContainerStyle={styles.categoryContainer}
-          showsHorizontalScrollIndicator={false}>
-          {CATEGORIES.map((category, index) => (
-            <TouchableOpacity key={index} style={[styles.badge]}>
-              <Text
-                style={[
-                  // styles.badge,
-                  {color:"black"},
-                  index === CATEGORIES.length - 1 && styles.lastBadge,
-                ]}>
-                {category.text}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
+          <ScrollView
+            horizontal
+            contentContainerStyle={styles.categoryContainer}
+            showsHorizontalScrollIndicator={false}>
+            {CATEGORIES.map((category, index) => (
+              <TouchableOpacity key={index} style={[styles.badge]}>
+                <Text
+                  style={[
+                    // styles.badge,
+                    {color: 'black'},
+                    index === CATEGORIES.length - 1 && styles.lastBadge,
+                  ]}>
+                  {category.text}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
         </View>
         <ScrollView showsVerticalScrollIndicator style={styles.recipeList}>
           {RECIPES.map((recipe, index) => (
-            <RecipeCard recipe={recipe} key={index} cardStyle={{width:353}} />
+            <RecipeCard recipe={recipe} key={index} cardStyle={{width: 353}} />
           ))}
         </ScrollView>
       </View>
-      <BottomSheet
-        ref={bottomSheetRef}
-        snapPoints={snapPoints}
-        index={-1}
-        enablePanDownToClose
-        style={styles.bottomSheet}>
-        <BottomSheetView style={styles.contentContainer}>
-          <View style={styles.sheetHeader}>
-            <Text style={styles.sheetHeaderText}>Filter</Text>
-            <TouchableOpacity onPress={handleDismissedModalPress}>
-              <View>
-                <Text style={styles.sheetCloseText}>Close</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.filterContainer}>
-            <Text style={styles.filterTitle}>Time to make</Text>
-            <View style={styles.filterOption}>
-              <Text style={styles.filterOptionText}>10 Min</Text>
-              <CheckBox center />
-            </View>
-          </View>
-        </BottomSheetView>
-      </BottomSheet>
+      <CustomBottomSheet
+        bottomSheetRef={bottomSheetRef}
+        onClose={CloseBottomSheet}
+        component={
+          <ScrollView>
+            <Filters
+              data={TIME_TO_MAKE}
+              checkedValues={checkedValues}
+              setCheckedValues={setCheckedValues}
+              title={'Time to make'}
+            />
+            <View style={{borderBottomWidth: 1, borderColor: '#EBEBEB'}} />
+            <Filters
+              data={FOOD_TYPE}
+              checkedValues={checkedValues}
+              setCheckedValues={setCheckedValues}
+              title={'Food type'}
+            />
+            <View style={{borderBottomWidth: 1, borderColor: '#EBEBEB'}} />
+            <Filters
+              data={CAN_HAVE_IN}
+              checkedValues={checkedValues}
+              setCheckedValues={setCheckedValues}
+              title={'Can have in'}
+            />
+          </ScrollView>
+        }
+        title="Filters"
+      />
     </>
   );
 };
@@ -156,50 +162,5 @@ const styles = StyleSheet.create({
   recipeList: {
     maxWidth: 353,
     margin: 'auto',
-
-  },
-  bottomSheet: {
-    borderRadius: 25,
-  },
-  contentContainer: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  sheetHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    borderBottomWidth: 1,
-    width: '100%',
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-    alignItems: 'center',
-  },
-  sheetHeaderText: {
-    color: '#76BC3F',
-  },
-  sheetCloseText: {
-    color: '#000',
-  },
-  filterContainer: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    width: '100%',
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-    gap: 16,
-  },
-  filterTitle: {
-    color: '#000',
-    fontSize: 20,
-    fontWeight: '500',
-  },
-  filterOption: {
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  filterOptionText: {
-    color: '#000',
   },
 });
