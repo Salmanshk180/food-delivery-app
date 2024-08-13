@@ -217,3 +217,12 @@ export enum CAN_HAVE_IN {
   Lunch = 'Lunch',
   Dinner = 'Dinner',
 }
+
+export const ConsultationData = [
+  {id: '1', date: '22 May, 2023'},
+  {id: '2', date: '13 Mar, 2023'},
+  {id: '3', date: '10 Jan, 2023'},
+  {id: '4', date: '11 May, 2023'},
+  {id: '5', date: '11 May, 2023'},
+  {id: '6', date: '11 May, 2023'},
+];

@@ -41,6 +41,7 @@ export default function BottomTab() {
         name="Home"
         component={Home}
         options={{
+          headerShown: false,
           tabBarActiveTintColor: '#76BC3F',
           tabBarIcon: ({focused}) => <TabHomeIcon focused={focused} />,
         }}
