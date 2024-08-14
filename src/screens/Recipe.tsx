@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   FlatList,
+  Dimensions,
 } from 'react-native';
 import Search from '../assets/Search';
 import Filter from '../assets/Filter';
@@ -31,17 +32,19 @@ const Recipes = () => {
     bottomSheetRef.current?.close();
   }, []);
   const [checkedValues, setCheckedValues] = useState<string[]>([]);
-
+  const {width} = Dimensions.get('screen');
   return (
     <>
       <View style={styles.container}>
         <View style={[styles.inputContainer]}>
-          <View style={styles.input}>
+          <View style={[styles.input, {width: width * 0.72}]}>
             <Search />
             <TextInput
               style={styles.textInput}
               placeholder="Search recipes"
               placeholderTextColor={'#838383'}
+              inputMode="search"
+              returnKeyType="search"
             />
           </View>
           <TouchableOpacity onPress={OpenBottomSheet}>
@@ -60,12 +63,13 @@ const Recipes = () => {
             )}
           />
         </View>
-
-        <FlatList
-          data={RECIPES}
-          contentContainerStyle={{paddingHorizontal: 20}}
-          renderItem={({item}) => <RecipeCard recipe={item} />}
-        />
+        <View>
+          <FlatList
+            data={RECIPES}
+            contentContainerStyle={{paddingHorizontal: 20}}
+            renderItem={({item}) => <RecipeCard recipe={item} />}
+          />
+        </View>
       </View>
       <CustomBottomSheet
         bottomSheetRef={bottomSheetRef}
@@ -126,7 +130,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
-    width: '82%',
   },
   textInput: {
     padding: 0,
@@ -140,7 +143,7 @@ const styles = StyleSheet.create({
     color: '#18270B',
     borderRadius: 50,
     paddingHorizontal: 20,
-    paddingVertical: 5,
+    paddingVertical: 14,
     borderWidth: 1,
     borderColor: '#D8DADC',
   },

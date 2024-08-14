@@ -86,8 +86,8 @@ export default function RecipeDetail({route}: any) {
             // contentContainerStyle={{gap: 11}}
             // columnWrapperStyle={{justifyContent:'space-between' }}
             numColumns={3}
-            contentContainerStyle={{gap:10}}
-            columnWrapperStyle={{gap:10,flexWrap:'wrap'}}
+            contentContainerStyle={{gap: 10}}
+            columnWrapperStyle={{gap: 10, flexWrap: 'wrap'}}
             // horizontal
             renderItem={({item}) => (
               <Badge
@@ -97,7 +97,6 @@ export default function RecipeDetail({route}: any) {
                 titleStyle={styles.nutritionBadgeTitle}
                 subTitleStyle={styles.nutritionBadgeSubTitle}
               />
-              
             )}
           />
         </View>
@@ -129,7 +128,7 @@ export default function RecipeDetail({route}: any) {
             horizontal
             contentContainerStyle={{paddingHorizontal: 20, gap: 18}}
             renderItem={({item}) => (
-              <View style={{width:width*0.8}}>
+              <View style={{width: width * 0.8}}>
                 <RecipeCard
                   recipe={item}
                   isTouchEffectDisabled

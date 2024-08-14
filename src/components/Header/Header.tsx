@@ -46,7 +46,14 @@ const Header = ({title, isBack = false, icon, image, backIcon}: Props) => {
           {backIcon}
         </TouchableOpacity>
       )}
-      <Text style={{color: '#303030', fontSize: 20, fontWeight: '800'}}>
+      <Text
+        style={{
+          color: '#303030',
+          fontSize: 20,
+          fontWeight: '800',
+          textAlign: isBack ? 'center' : 'left',
+          flex: 1,
+        }}>
         {title}
       </Text>
       {icon}

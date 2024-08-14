@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     marginBottom: 18,
   },
   image: {
-    width: "100%",
+    width: '100%',
     borderRadius: 10,
     resizeMode: 'cover',
   },
@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingTop: 10,
+    padding: 5,
   },
   textContainer: {
     flexDirection: 'row',

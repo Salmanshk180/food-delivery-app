@@ -44,7 +44,7 @@ const Feed = () => {
           keyExtractor={(item, index) => index.toString()}
         />
       </View>
-      <View style={{flex: 1}}>
+      {/* <View style={{flex: 1}}>
         <FlatList
           data={FEEDSDATA}
           numColumns={2}
@@ -58,7 +58,18 @@ const Feed = () => {
           renderItem={feed => <FeedCard data={feed.item} />}
           keyExtractor={feed => feed.id.toString()}
         />
-      </View>
+      </View> */}
+      <FlatList
+        data={FEEDSDATA}
+        numColumns={2}
+        contentContainerStyle={{
+          paddingHorizontal: 20,
+          gap: 15,
+          paddingBottom: 16,
+        }}
+        columnWrapperStyle={{gap: 17, justifyContent: 'space-between'}}
+        renderItem={feed => <FeedCard data={feed.item} />}
+      />
     </View>
   );
 };
