@@ -3,8 +3,10 @@ import React from 'react';
 interface Props {
   label: string;
   options: string[];
+  handleChange: (value: string) => void;
+  value: string | string[];
 }
-const CustomSelect = ({label, options}: Props) => {
+const CustomSelect = ({label, options, handleChange, value}: Props) => {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
@@ -13,8 +15,28 @@ const CustomSelect = ({label, options}: Props) => {
           <TouchableOpacity
             activeOpacity={0.5}
             key={index}
-            style={styles.badge}>
-            <Text style={styles.text}>{option}</Text>
+            style={[
+              styles.badge,
+              {
+                backgroundColor:
+                  value === option || value.includes(option)
+                    ? '#76BC3F'
+                    : '#fff',
+              },
+            ]}
+            onPress={() => handleChange(option)}>
+            <Text
+              style={[
+                styles.text,
+                {
+                  color:
+                    value === option || value.includes(option)
+                      ? '#fff'
+                      : '#838383',
+                },
+              ]}>
+              {option}
+            </Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -48,12 +70,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: '#D8DADC',
-    backgroundColor: '#FFF',
     paddingVertical: 18,
     paddingHorizontal: 16,
   },
   text: {
-    color: '#838383',
     fontSize: 16,
     fontWeight: '400',
   },

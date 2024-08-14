@@ -5,18 +5,24 @@ import {
   TextInput,
   InputModeOptions,
 } from 'react-native';
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 interface Props {
   label: string;
   placeHolder: string;
-  inputType?: InputModeOptions | undefined;
   icon?: React.ReactNode;
+  value: string;
+  handleChange: (e: string | ChangeEvent<any>) => void;
+  handleBlur: (e: any) => void;
+  onKeyDown?: () => void;
 }
 const CustomTextField = ({
   label,
   placeHolder,
-  inputType = 'text',
   icon,
+  value,
+  handleChange,
+  handleBlur,
+  onKeyDown,
 }: Props) => {
   return (
     <View style={styles.container}>
@@ -25,8 +31,12 @@ const CustomTextField = ({
         <TextInput
           placeholder={placeHolder}
           placeholderTextColor={'#838383'}
-          inputMode={inputType}
           style={styles.input}
+          value={value}
+          onChangeText={handleChange}
+          enterKeyHint="search"
+          onBlur={handleBlur}
+          onSubmitEditing={onKeyDown}
         />
         {icon}
       </View>
@@ -53,7 +63,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 18,
     flexDirection: 'row',
-    alignItems:"center",
+    alignItems: 'center',
     justifyContent: 'space-between',
   },
   input: {

@@ -79,6 +79,7 @@ android {
         applicationId "com.test"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        missingDimensionStrategy 'react-native-video','react-native-image-crop-picker','general'
         versionCode 1
         versionName "1.0"
     }

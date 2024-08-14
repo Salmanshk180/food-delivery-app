@@ -1,12 +1,15 @@
 import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
+import {TouchableOpacityBase} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 interface Props {
   title: string;
   icon: React.ReactNode;
+  onPress: () => void;
 }
-const ImagePicker = ({title, icon}: Props) => {
+const ImagePicker = ({title, icon, onPress}: Props) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <View
         style={{
           paddingHorizontal: 80,
@@ -17,7 +20,7 @@ const ImagePicker = ({title, icon}: Props) => {
         {icon}
         <Text style={styles.title}>{title}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
