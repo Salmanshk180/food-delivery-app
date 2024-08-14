@@ -4,8 +4,9 @@ import {
   StyleSheet,
   TextInput,
   InputModeOptions,
+  Pressable,
 } from 'react-native';
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useRef} from 'react';
 interface Props {
   label: string;
   placeHolder: string;
@@ -24,11 +25,13 @@ const CustomTextField = ({
   handleBlur,
   onKeyDown,
 }: Props) => {
+    const inputRef = useRef<TextInput>(null);
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
-      <View style={styles.inputContainer}>
+      <Pressable style={styles.inputContainer}   onPress={() => inputRef.current?.focus()}>
         <TextInput
+          ref={inputRef}
           placeholder={placeHolder}
           placeholderTextColor={'#838383'}
           style={styles.input}
@@ -39,7 +42,7 @@ const CustomTextField = ({
           onSubmitEditing={onKeyDown}
         />
         {icon}
-      </View>
+      </Pressable>
     </View>
   );
 };

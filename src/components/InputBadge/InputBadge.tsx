@@ -1,5 +1,11 @@
-import {View, Text, StyleSheet, KeyboardTypeOptions} from 'react-native';
-import React, {ChangeEvent} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  KeyboardTypeOptions,
+  Pressable,
+} from 'react-native';
+import React, {ChangeEvent, useRef} from 'react';
 import {TextInput} from 'react-native';
 
 interface Props {
@@ -19,9 +25,13 @@ const InputBadge = ({
   handleBlur,
   handleChange,
 }: Props) => {
+  const inputRef = useRef<TextInput>(null);
   return (
-    <View style={styles.inputField}>
+    <Pressable
+      style={styles.inputField}
+      onPress={() => inputRef.current?.focus()}>
       <TextInput
+        ref={inputRef}
         placeholder={placeholder}
         placeholderTextColor={'#838383'}
         style={styles.input}
@@ -33,7 +43,7 @@ const InputBadge = ({
       <Text style={{color: '#76BC3F', fontSize: 16, fontWeight: '500'}}>
         {label}
       </Text>
-    </View>
+    </Pressable>
   );
 };
 

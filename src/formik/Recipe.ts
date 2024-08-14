@@ -2,8 +2,8 @@ import {array, mixed, number, object, string} from 'yup';
 export const RecipeValues = {
   name: '',
   foodType: '',
-  oneCanHaveIt: [''],
-  ingredients: [''],
+  oneCanHaveIt: [] as string[],
+  ingredients: [] as string[],
   hours: '',
   mins: '',
   calories: '',
@@ -19,8 +19,11 @@ export const RecipeSchema = object({
   foodType: string()
     .oneOf(['Pure Veg', 'Non Veg'])
     .required('Food type is required'),
-  oneCanHaveIt: array().of(string()).required('One can have in is required'),
-  ingredients: array().required("Ingredients is required"),
+  oneCanHaveIt: array()
+    .length(1)
+    .of(string())
+    .required('One can have in is required'),
+  ingredients: array().length(1).required('Ingridents is required'),
   mins: string().required('Minutes is required'),
   hours: string().required('Hours is required'),
   calories: string().required('Calories is required'),

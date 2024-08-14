@@ -22,16 +22,13 @@ import ImagePicker from 'react-native-image-crop-picker';
 import Video from 'react-native-video';
 
 const AddRecipe = () => {
-  const [ingredients, setIngredients] = useState<string[]>([]);
   const [ingredient, setIngredient] = useState<string>('');
   const formik = useFormik({
     initialValues: RecipeValues,
     validationSchema: RecipeSchema,
     onSubmit: (values, action) => {
-      const form = {...values, ingredients: ingredients};
-      console.log(form);
+      console.log(values);
       action.resetForm();
-      setIngredients([]);
     },
   });
   const handleFoodType = (value: string) => {
@@ -44,12 +41,18 @@ const AddRecipe = () => {
     if (ingredient.trim() === '') {
       return;
     }
-    setIngredients([...ingredients, ingredient]);
+    formik.setFieldValue('ingredients', [
+      ...formik.values.ingredients,
+      ingredient,
+    ]);
     setIngredient('');
   };
 
   const handleRemoveIngredient = (value: string) => {
-    setIngredients(ingredients.filter(item => item !== value));
+    formik.setFieldValue(
+      'ingredients',
+      formik.values.ingredients.filter(item => item !== value),
+    );
   };
 
   const handleOneCanHaveIt = (value: string) => {
@@ -145,25 +148,14 @@ const AddRecipe = () => {
           handleBlur={formik.handleBlur('ingredients')}
           onKeyDown={handleAddIngredients}
         />
-        {ingredients.length > 0 && (
+        {formik.values.ingredients.length > 0 && (
           <View>
             <FlatList
               horizontal
-              data={ingredients}
+              data={formik.values.ingredients}
               contentContainerStyle={{gap: 12}}
               renderItem={({item}) => (
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    borderWidth: 1,
-                    borderColor: '#76BC3F',
-                    backgroundColor: '#F5FFEE',
-                    paddingVertical: 12,
-                    paddingHorizontal: 15,
-                    gap: 12,
-                    flex: 1,
-                    borderRadius: 5,
-                  }}>
+                <View style={styles.ingeredientBadges}>
                   <Text style={{color: '#1F3210'}}>{item}</Text>
                   <TouchableOpacity
                     activeOpacity={0.5}
@@ -239,9 +231,14 @@ const AddRecipe = () => {
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           activeOpacity={0.5}
+          disabled={!(formik.isValid && formik.dirty)}
           onPress={() => formik.handleSubmit()}
           role="button">
-          <View style={styles.button}>
+          <View
+            style={[
+              styles.button,
+              {opacity: !(formik.isValid && formik.dirty) ? 0.7 : 1},
+            ]}>
             <Text style={styles.buttonText}>Save</Text>
           </View>
         </TouchableOpacity>
@@ -292,5 +289,16 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flex: 1,
     gap: 17,
+  },
+  ingeredientBadges: {
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderColor: '#76BC3F',
+    backgroundColor: '#F5FFEE',
+    paddingVertical: 12,
+    paddingHorizontal: 15,
+    gap: 12,
+    flex: 1,
+    borderRadius: 5,
   },
 });
