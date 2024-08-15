@@ -5,7 +5,8 @@ export type ScreenNames =
   | 'HomeStack'
   | 'BottomTab'
   | 'Recipes'
-  | 'RecipeDetail';
+  | 'RecipeDetail'
+  | 'AddRecipe';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -13,5 +14,6 @@ export type RootStackParamList = {
   BottomTab: undefined;
   Recipes: undefined;
   RecipeDetail: {title: string,data: any};
+  AddRecipe: undefined;
 };
 export type StackNavigation = NavigationProp<RootStackParamList>;

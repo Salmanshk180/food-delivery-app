@@ -9,21 +9,20 @@ interface Props {
 
 const Ingredients = ({data, onPress}: Props) => {
   return (
-    <View>
-      <FlatList
-        horizontal
-        data={data}
-        contentContainerStyle={{gap: 12}}
-        renderItem={({item}) => (
-          <View style={styles.ingeredientBadges}>
-            <Text style={{color: '#1F3210'}}>{item}</Text>
-            <TouchableOpacity activeOpacity={0.5} onPress={() => onPress(item)}>
-              <Close />
-            </TouchableOpacity>
-          </View>
-        )}
-      />
-    </View>
+    <FlatList
+      data={data}
+      numColumns={2}
+      contentContainerStyle={{gap: 10}}
+      columnWrapperStyle={{gap: 12}}
+      renderItem={({item}) => (
+        <View style={styles.ingeredientBadges}>
+          <Text style={{color: '#1F3210', flex: 1}}>{item}</Text>
+          <TouchableOpacity activeOpacity={0.5} onPress={() => onPress(item)}>
+            <Close />
+          </TouchableOpacity>
+        </View>
+      )}
+    />
   );
 };
 
@@ -35,10 +34,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#76BC3F',
     backgroundColor: '#F5FFEE',
-    paddingVertical: 12,
-    paddingHorizontal: 15,
-    gap: 12,
-    flex: 1,
+    paddingVertical: 15,
+    paddingHorizontal: 16,
+    gap: 10,
     borderRadius: 5,
+    flex: 0.5,
   },
 });

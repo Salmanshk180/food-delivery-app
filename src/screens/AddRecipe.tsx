@@ -257,7 +257,7 @@ const AddRecipe = () => {
           </View>
         </View>
       </ScrollView>
-      <CustomButton onPress={formik.handleSubmit} />
+      <CustomButton onPress={formik.handleSubmit}  />
     </>
   );
 };

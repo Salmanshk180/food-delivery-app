@@ -9,10 +9,11 @@ import TabMyDiet from '../components/tabBarIcons/TabMyDiet';
 import Header from '../components/Header/Header';
 import AddRecipe from '../screens/AddRecipe';
 import Add from '../assets/Add';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {BottomSheetMethods} from '@gorhom/bottom-sheet/lib/typescript/types';
 import CustomBottomSheet from '../components/BottomSheet/BottomSheet';
 import Like from '../assets/Like';
+import {Pressable, Text} from 'react-native';
+import AddFormsList from '../components/AddFormsList/AddFormsList';
 
 export default function BottomTab() {
   const Tab = createBottomTabNavigator();
@@ -75,11 +76,15 @@ export default function BottomTab() {
           name="AddRecipe"
           component={AddRecipe}
           options={({route, navigation}) => ({
-            header: () => <Header title="Add Recipe" isBack />,
-            tabBarLabelStyle: {display: 'none'},
-            tabBarIcon: ({focused}) => <Add onFocus={focused} />,
-            tabBarStyle: {display: 'none'},
-          })}></Tab.Screen>
+            tabBarButton: () => (
+              <Pressable
+                onPress={OpenBottomSheet}
+                style={{justifyContent: 'center'}}>
+                <Add />
+              </Pressable>
+            ),
+          })}
+        />
         <Tab.Screen
           name="My Diet"
           component={Feed}
@@ -90,6 +95,13 @@ export default function BottomTab() {
           }}
         />
       </Tab.Navigator>
+      <CustomBottomSheet
+        bottomSheetRef={bottomSheetRef}
+        onClose={CloseBottomSheet}
+        component={<AddFormsList />}
+        snapPointsArray={['25%', '50%', '75%']}
+        title="Add"
+      />
     </>
   );
 }

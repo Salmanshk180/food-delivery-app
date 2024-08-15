@@ -18,6 +18,7 @@ interface Props {
     | undefined;
   title: string;
   onClose: () => void;
+  snapPointsArray?: string[];
 }
 
 const CustomBottomSheet = ({
@@ -25,8 +26,9 @@ const CustomBottomSheet = ({
   bottomSheetRef,
   title,
   onClose,
+  snapPointsArray,
 }: Props) => {
-  const snapPoints = useMemo(() => ['50%', '100%'], []);
+  const snapPoints = useMemo(() => snapPointsArray ?? ['50%', '100%'], []);
   return (
     <BottomSheet
       ref={bottomSheetRef}
@@ -41,7 +43,8 @@ const CustomBottomSheet = ({
             <Close />
           </TouchableOpacity>
         </View>
-        <View style={{flex:1,justifyContent: 'center',paddingHorizontal:20}}>
+        <View
+          style={{flex: 1, justifyContent: 'center', paddingHorizontal: 20}}>
           {component}
         </View>
       </BottomSheetView>
@@ -57,7 +60,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    alignItems: 'center',
+    // alignItems: 'center',
   },
   sheetHeader: {
     flexDirection: 'row',

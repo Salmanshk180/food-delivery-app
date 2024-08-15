@@ -24,7 +24,7 @@ export const RecipeSchema = object({
     .length(1)
     .of(string())
     .required('One can have in is required'),
-  ingredients: array().length(1).required('Ingridents is required'),
+  ingredients: array().min(1).required('Ingridents is required'),
   mins: string().required('Minutes is required'),
   hours: string().required('Hours is required'),
   calories: string().required('Calories is required'),
