@@ -1,14 +1,16 @@
-import {View, Text, FlatList, TouchableOpacity, Image} from 'react-native';
+import {Text, FlatList, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
-import AddRecipe from '../../screens/AddRecipe';
 import RecipeImage from '../../assets/RecipeImage.png';
 import ClientImage from '../../assets/ClientImage.png';
 import FeedImage from '../../assets/FeedImage.png';
 import DietImage from '../../assets/DietImage.png';
 import SupplementImage from '../../assets/SupplementImage.png';
 import {useNavigation} from '@react-navigation/native';
-import { StackNavigation } from '../../types';
-const AddFormsList = () => {
+import {StackNavigation} from '../../types';
+interface Props {
+  onSheetClose: () => void;
+}
+const AddFormsList = ({onSheetClose}: Props) => {
   const data = [
     {
       id: '1',
@@ -58,7 +60,12 @@ const AddFormsList = () => {
             paddingVertical: 5,
             paddingBottom: 10,
           }}
-          onPress={() => navigation.navigate(item.path)}>
+          onPress={() => {
+            navigation.navigate(item.path);
+            setTimeout(() => {
+              onSheetClose();
+            }, 2000);
+          }}>
           <Image source={item.image} />
           <Text style={{color: '#000', fontSize: 20, fontWeight: 500}}>
             {item.name}

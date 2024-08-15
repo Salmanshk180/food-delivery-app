@@ -5,16 +5,25 @@ import Video from 'react-native-video';
 import ThumbnailUpload from '../../assets/ThumbnailUpload';
 import VideoUpload from '../../assets/VideoUpload';
 
-const MediaPicker = ({media, mediaType, onPickMedia, error}:any) => {
+const MediaPicker = ({media, mediaType, onPickMedia, error}: any) => {
   return (
     <>
       {media ? (
-        <View style={{flex: 1, alignItems: 'center'}}>
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            borderWidth: 1,
+            borderColor: '#D8DADC',
+            borderRadius: 10,
+            backgroundColor: '#FBFAFA',
+
+          }}>
           {mediaType === 'image' ? (
             <Image
               source={{uri: media}}
               style={{width: '100%', height: mediaType === 'image' ? 146 : 231}}
-              resizeMode="contain"
+              resizeMode='contain'
             />
           ) : (
             <Video
@@ -27,13 +36,13 @@ const MediaPicker = ({media, mediaType, onPickMedia, error}:any) => {
       ) : (
         <View style={{gap: 10}}>
           <ImagePickers
-            title={`Add ${mediaType === 'image' ? 'thumbnail image' : 'recipe video'} here`}
+            title={`Add ${
+              mediaType === 'image' ? 'thumbnail image' : 'recipe video'
+            } here`}
             icon={mediaType === 'image' ? <ThumbnailUpload /> : <VideoUpload />}
             onPress={onPickMedia}
           />
-          {error && (
-            <Text style={{color: 'red', fontSize: 14}}>{error}</Text>
-          )}
+          {error && <Text style={{color: 'red', fontSize: 14}}>{error}</Text>}
         </View>
       )}
     </>

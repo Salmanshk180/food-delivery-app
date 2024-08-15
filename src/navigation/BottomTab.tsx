@@ -98,7 +98,7 @@ export default function BottomTab() {
       <CustomBottomSheet
         bottomSheetRef={bottomSheetRef}
         onClose={CloseBottomSheet}
-        component={<AddFormsList />}
+        component={<AddFormsList onSheetClose={CloseBottomSheet} />}
         snapPointsArray={['25%', '50%', '75%']}
         title="Add"
       />

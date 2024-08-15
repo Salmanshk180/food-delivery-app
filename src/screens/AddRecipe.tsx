@@ -1,8 +1,13 @@
-import {View, Text, ScrollView, StyleSheet, Image} from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
 import React, {ChangeEvent, useState} from 'react';
-import ImagePickers from '../components/ImagePicker/ImagePicker';
-import ThumbnailUpload from '../assets/ThumbnailUpload';
-import VideoUpload from '../assets/VideoUpload';
 import CustomTextField from '../components/CustomTextField/CustomTextField';
 import CustomSelect from '../components/CustomSelect/CustomSelect';
 import Search from '../assets/Search';
@@ -10,13 +15,18 @@ import InputBadge from '../components/InputBadge/InputBadge';
 import {useFormik} from 'formik';
 import {RecipeSchema, RecipeValues} from '../formik/Recipe';
 import ImagePicker from 'react-native-image-crop-picker';
-import Video from 'react-native-video';
 import CustomDropDown from '../components/CustomDropDown/CustomDropDown';
 import CustomButton from '../components/CustomButton/CustomButton';
 import Ingredients from '../components/Ingredients/Ingredients';
 import MediaPicker from '../components/MediaPicker/MediaPicker';
-const AddRecipe = () => {
+import RoutePreventModal from '../components/RoutePreventModal/RoutePreventModal';
+import {DateTimePickerAndroid} from '@react-native-community/datetimepicker';
+import Calender from '../assets/Calender';
+const AddRecipe = ({navigation}: any) => {
+  const [showRoutePreventModal, setShowRoutePreventModal] = useState(false);
+  const [pendingRoute, setPendingRoute] = useState<any>(null);
   const [ingredient, setIngredient] = useState<string>('');
+  const [date, setDate] = useState('');
   const formik = useFormik({
     initialValues: RecipeValues,
     validationSchema: RecipeSchema,
@@ -82,8 +92,52 @@ const AddRecipe = () => {
   const handleCategoryChange = (value: string) => {
     formik.setFieldValue('category', value);
   };
+  React.useEffect(
+    () =>
+      navigation.addListener('beforeRemove', (e: any) => {
+        if (!formik.dirty) {
+          return;
+        }
+
+        e.preventDefault();
+        setPendingRoute(e.data.action);
+        setShowRoutePreventModal(true);
+      }),
+    [navigation, formik.dirty],
+  );
+  const handleDiscardChanges = () => {
+    setShowRoutePreventModal(false);
+    navigation.dispatch(pendingRoute);
+  };
+
+  const handleCloseModal = () => {
+    setShowRoutePreventModal(false);
+    setPendingRoute(null);
+  };
+  const handleDateChange = (event: any, selectedDate: Date | undefined) => {
+    if (selectedDate) {
+      const formattedDate = selectedDate.toISOString().split('T')[0];
+      setDate(formattedDate);
+      formik.setFieldValue('date', formattedDate);
+    }
+  };
+
+  const showDatePicker = () => {
+    DateTimePickerAndroid.open({
+      value: date ? new Date(date) : new Date(),
+      onChange: handleDateChange,
+      mode: 'date',
+      is24Hour: true,
+    });
+  };
   return (
     <>
+      {showRoutePreventModal && (
+        <RoutePreventModal
+          onDiscard={handleDiscardChanges}
+          onCancel={handleCloseModal}
+        />
+      )}
       <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
         <View style={styles.container}>
           <MediaPicker
@@ -146,6 +200,31 @@ const AddRecipe = () => {
               formik.errors.category && formik.touched.category ? true : false
             }
           />
+          <View style={styles.inputContainer}>
+            <Text style={styles.text}>Date</Text>
+            <TouchableOpacity
+              onPress={showDatePicker}
+              style={{
+                flex: 1,
+                borderWidth: 1,
+                borderRadius: 5,
+                borderColor: '#D8DADC',
+                paddingVertical: 5,
+                paddingHorizontal: 10,
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexDirection: 'row',
+              }}>
+              <TextInput
+                style={styles.text}
+                placeholder="YYYY-MM-DD"
+                placeholderTextColor={'#838383'}
+                value={date}
+                editable={false}
+              />
+              <Calender />
+            </TouchableOpacity>
+          </View>
           <CustomTextField
             label="Add Ingredients"
             placeHolder="Search ingredients"
@@ -161,10 +240,12 @@ const AddRecipe = () => {
                 : false
             }
           />
-          <Ingredients
-            data={formik.values.ingredients}
-            onPress={handleRemoveIngredient}
-          />
+          {formik.values.ingredients.length > 0 && (
+            <Ingredients
+              data={formik.values.ingredients}
+              onPress={handleRemoveIngredient}
+            />
+          )}
           <View style={styles.inputContainer}>
             <Text style={styles.text}>Time to cook</Text>
             <View style={{flexDirection: 'row', gap: 17}}>
@@ -257,7 +338,7 @@ const AddRecipe = () => {
           </View>
         </View>
       </ScrollView>
-      <CustomButton onPress={formik.handleSubmit}  />
+      <CustomButton onPress={formik.handleSubmit} />
     </>
   );
 };
@@ -285,5 +366,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flex: 1,
     gap: 17,
+    alignItems: 'center',
   },
 });

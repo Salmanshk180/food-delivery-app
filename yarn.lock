@@ -2370,6 +2370,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-community/datetimepicker@npm:^8.2.0":
+  version: 8.2.0
+  resolution: "@react-native-community/datetimepicker@npm:8.2.0"
+  dependencies:
+    invariant: ^2.2.4
+  peerDependencies:
+    expo: ">=50.0.0"
+    react: "*"
+    react-native: "*"
+    react-native-windows: "*"
+  peerDependenciesMeta:
+    expo:
+      optional: true
+    react-native-windows:
+      optional: true
+  checksum: 3adc9346f8948abed246da3bfa3a223e44c2c5903070178a82e583ce6f8273607fe5a542af834b3a27aff81980c555e5f72bf0e87c85e3f00856a0de21525374
+  languageName: node
+  linkType: hard
+
 "@react-native/assets-registry@npm:0.74.87":
   version: 0.74.87
   resolution: "@react-native/assets-registry@npm:0.74.87"
@@ -4454,9 +4473,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.4":
-  version: 1.5.7
-  resolution: "electron-to-chromium@npm:1.5.7"
-  checksum: 50b75a26e31659c16dd57e7816d4a6b0664284f594d1fb9074cdf5025bdc1c125a065186e0a170a4b4275372c898a36f2556f43759be7fae075a6cc6922d9040
+  version: 1.5.8
+  resolution: "electron-to-chromium@npm:1.5.8"
+  checksum: b9200c76fdeb4fc47deb3ea08e2eee65fa86dcc69ce4c78b0ff944b78ecca5635e39e68a2c0bbea40c2fac2893dd73e06ff9fb8df07fd33ea16432cd2dc5d05b
   languageName: node
   linkType: hard
 
@@ -9581,6 +9600,7 @@ __metadata:
     "@babel/preset-env": ^7.20.0
     "@babel/runtime": ^7.20.0
     "@gorhom/bottom-sheet": ^4
+    "@react-native-community/datetimepicker": ^8.2.0
     "@react-native/babel-preset": 0.74.87
     "@react-native/eslint-config": 0.74.87
     "@react-native/metro-config": 0.74.87

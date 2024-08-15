@@ -35,7 +35,6 @@ export default function RecipeCard({
   isTimer?: boolean;
 }) {
   const navigation = useNavigation<StackNavigation>();
-
   return (
     <TouchableOpacity
       style={styles.touchable}
