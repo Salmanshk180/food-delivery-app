@@ -15,6 +15,8 @@ interface Props {
   value: string;
   handleChange: (e: string | ChangeEvent<any>) => void;
   handleBlur: (e: any) => void;
+  error: string;
+  isError: boolean;
 }
 
 const InputBadge = ({
@@ -24,26 +26,31 @@ const InputBadge = ({
   value,
   handleBlur,
   handleChange,
+  error,
+  isError
 }: Props) => {
   const inputRef = useRef<TextInput>(null);
   return (
-    <Pressable
-      style={styles.inputField}
-      onPress={() => inputRef.current?.focus()}>
-      <TextInput
-        ref={inputRef}
-        placeholder={placeholder}
-        placeholderTextColor={'#838383'}
-        style={styles.input}
-        keyboardType={keyboardType}
-        onChangeText={handleChange}
-        onBlur={handleBlur}
-        value={value}
-      />
-      <Text style={{color: '#76BC3F', fontSize: 16, fontWeight: '500'}}>
-        {label}
-      </Text>
-    </Pressable>
+    <View style={{flex: 1, gap: 10}}>
+      <Pressable
+        style={styles.inputField}
+        onPress={() => inputRef.current?.focus()}>
+        <TextInput
+          ref={inputRef}
+          placeholder={placeholder}
+          placeholderTextColor={'#838383'}
+          style={styles.input}
+          keyboardType={keyboardType}
+          onChangeText={handleChange}
+          onBlur={handleBlur}
+          value={value}
+        />
+        <Text style={{color: '#76BC3F', fontSize: 16, fontWeight: '500'}}>
+          {label}
+        </Text>
+      </Pressable>
+      {isError && <Text style={{color: 'red', fontSize: 14}}>{error}</Text>}
+    </View>
   );
 };
 

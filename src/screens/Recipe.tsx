@@ -37,10 +37,12 @@ const Recipes = () => {
     <>
       <View style={styles.container}>
         <View style={[styles.inputContainer]}>
-          <View style={[styles.input, {width: width * 0.72}]}>
+          <View style={[styles.input, 
+          {flex:1}
+          ]}>
             <Search />
             <TextInput
-              style={styles.textInput}
+              style={[styles.textInput,{flex:1}]}
               placeholder="Search recipes"
               placeholderTextColor={'#838383'}
               inputMode="search"
@@ -115,9 +117,10 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flexDirection: 'row',
-    width: '100%',
+    // width: '100%',
     paddingHorizontal: 20,
     justifyContent: 'space-between',
+    gap:12
   },
   input: {
     borderRadius: 12,

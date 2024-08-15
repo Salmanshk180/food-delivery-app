@@ -62,7 +62,7 @@ export default function RecipeDetail({route}: any) {
             style={{
               flexDirection: 'row',
               flexWrap: 'wrap',
-              justifyContent: 'flex-start',
+              // justifyContent: 'flex-start',
               gap: 11,
             }}>
             {data?.canHaveItIn.map((data: any, index: number) => (
@@ -102,10 +102,6 @@ export default function RecipeDetail({route}: any) {
         </View>
         <View
           style={{
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            width: '100%',
             gap: 14,
           }}>
           <View
@@ -113,7 +109,8 @@ export default function RecipeDetail({route}: any) {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              width: '100%',
+              // width: '100%',
+              
               paddingHorizontal: 20,
             }}>
             <Text style={{color: '#18270B', fontSize: 18, fontWeight: '800'}}>
@@ -184,6 +181,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#F1F8EC',
     borderRadius: 8,
     maxWidth: 111,
-    maxHeight: 46,
+    // maxHeight: 46,
   },
 });

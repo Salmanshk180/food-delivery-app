@@ -34,7 +34,6 @@ const Feed = () => {
               <Text
                 style={[
                   styles.badge,
-
                   feed.index === FEEDS.length - 1 && {marginEnd: 10},
                 ]}>
                 {feed.item.text}

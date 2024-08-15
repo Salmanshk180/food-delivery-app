@@ -30,28 +30,21 @@ const Header = ({title, isBack = false, icon, image, backIcon}: Props) => {
         flexDirection: 'row',
         alignItems: 'center',
       }}>
-      {isBack && !backIcon && (
+      {(isBack || backIcon) &&   (
         <TouchableOpacity
           onPress={() => {
             navigation.goBack();
           }}>
-          <Back />
+        {backIcon ??  <Back />}
         </TouchableOpacity>
       )}
-      {isBack && backIcon && (
-        <TouchableOpacity
-          onPress={() => {
-            navigation.goBack();
-          }}>
-          {backIcon}
-        </TouchableOpacity>
-      )}
+ 
       <Text
         style={{
           color: '#303030',
           fontSize: 20,
           fontWeight: '800',
-          textAlign: isBack ? 'center' : 'left',
+          textAlign: (isBack || backIcon) ? 'center' : 'left',
           flex: 1,
         }}>
         {title}

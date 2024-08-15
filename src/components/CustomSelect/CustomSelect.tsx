@@ -5,8 +5,10 @@ interface Props {
   options: string[];
   handleChange: (value: string) => void;
   value: string | string[];
+  error: string | string[];
+  isError:boolean;
 }
-const CustomSelect = ({label, options, handleChange, value}: Props) => {
+const CustomSelect = ({label, options, handleChange, value, error,isError}: Props) => {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
@@ -40,6 +42,7 @@ const CustomSelect = ({label, options, handleChange, value}: Props) => {
           </TouchableOpacity>
         ))}
       </View>
+      {isError && <Text style={{color: 'red', fontSize: 14}}>{error}</Text>}
     </View>
   );
 };

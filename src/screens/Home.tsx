@@ -25,7 +25,7 @@ export function Home() {
   const maxLength = 80;
   const truncatedText = notesText.slice(0, maxLength) + '...';
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} contentContainerStyle={{flexGrow:1,}}>
       <View style={styles.header}>
         <Logo />
         <Notification />
@@ -36,12 +36,12 @@ export function Home() {
         </Text>
         <View style={[styles.goalCard, {marginHorizontal: 20}]}>
           <Goal />
-          <View style={{gap: 2}}>
+          <View style={{gap: 2,flex:1}}>
             <Text style={{fontSize: 18, fontWeight: '900', color: '#18270B'}}>
               Goals for nutrition counseling
             </Text>
-            <Text style={{color: '#303030', fontSize: 16, fontWeight: '500'}}>
-              Lorem ipsum dolor sit amet, adipis cing
+            <Text style={{color: '#303030', fontSize: 16, fontWeight: '500',}}>
+              Lorem ipsum dolor sit amet, adipis cingasfsdafsdfsfsafdsfdsdfsasfdsfsdaffasdfasfsdfsdffafsdfsdf
             </Text>
           </View>
         </View>

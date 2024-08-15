@@ -12,6 +12,7 @@ import Add from '../assets/Add';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {BottomSheetMethods} from '@gorhom/bottom-sheet/lib/typescript/types';
 import CustomBottomSheet from '../components/BottomSheet/BottomSheet';
+import Like from '../assets/Like';
 
 export default function BottomTab() {
   const Tab = createBottomTabNavigator();
@@ -59,7 +60,13 @@ export default function BottomTab() {
           name="Recipes"
           component={Recipes}
           options={{
-            header: () => <Header title="Recipe" />,
+            header: () => (
+              <Header
+                title="Recipe"
+                backIcon={<TabRecipeIcon />}
+                icon={<Like />}
+              />
+            ),
             tabBarActiveTintColor: '#76BC3F',
             tabBarIcon: ({focused}) => <TabRecipeIcon focused={focused} />,
           }}
@@ -72,24 +79,17 @@ export default function BottomTab() {
             tabBarLabelStyle: {display: 'none'},
             tabBarIcon: ({focused}) => <Add onFocus={focused} />,
             tabBarStyle: {display: 'none'},
-          })}
-        />
+          })}></Tab.Screen>
         <Tab.Screen
           name="My Diet"
           component={Feed}
           options={{
-            header: () => <Header title="Feeds" />,
+            header: () => <Header title="Feeds" isBack />,
             tabBarActiveTintColor: '#76BC3F',
             tabBarIcon: ({focused}) => <TabMyDiet focused={focused} />,
           }}
         />
       </Tab.Navigator>
-      <CustomBottomSheet
-        component={<></>}
-        title="Add"
-        bottomSheetRef={bottomSheetRef}
-        onClose={CloseBottomSheet}
-      />
     </>
   );
 }

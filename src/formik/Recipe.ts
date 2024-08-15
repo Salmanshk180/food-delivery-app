@@ -12,6 +12,7 @@ export const RecipeValues = {
   fats: '',
   thumbnail: '',
   video: '',
+  category: '',
 };
 
 export const RecipeSchema = object({
@@ -32,4 +33,5 @@ export const RecipeSchema = object({
   fats: string().required('Fats is required'),
   thumbnail: mixed().required('Thumbnail is required'),
   video: mixed().required('Video is required'),
+  category: string().required('Category is required'),
 });

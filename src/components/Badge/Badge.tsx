@@ -20,7 +20,7 @@ export default function Badge({
 }) {
   return (
     <View style={[styles.container, containerStyle]}>
-      <Text style={[styles.title, titleStyle, {color: titleColor}]}>
+      <Text style={[styles.title, titleStyle, {color: titleColor,flex:1}]}>
         {title}
       </Text>
       {subTitle &&<Text style={[styles.subTitle, subTitleStyle, {color: subTitleColor}]}>
@@ -36,7 +36,9 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     borderColor: '#D8DADC',
     width: 171,
-    height: 64,
+    // height: 64,
+
+    paddingVertical:10,
     backgroundColor: '#FBFAFA',
     justifyContent: 'center',
     alignItems: 'center',
