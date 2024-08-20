@@ -20,6 +20,7 @@ export default function MainStack() {
       <Stack.Screen
         name="ImageView"
         component={ImageView}
+        options={{animation: 'slide_from_bottom'}}
       />
       <Stack.Screen
         name="AddRecipe"

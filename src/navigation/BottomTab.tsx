@@ -32,7 +32,7 @@ export default function BottomTab() {
           tabBarStyle: {
             height: 98,
             position: 'relative',
-            zIndex: 100,
+            zIndex: 10,
           },
           tabBarItemStyle: {
             paddingVertical: 19,
@@ -78,9 +78,9 @@ export default function BottomTab() {
               <Pressable
                 onPress={() => {
                   setIsOpen(!isOpen);
-                  OpenBottomSheet();
+                isOpen ? CloseBottomSheet() : OpenBottomSheet()
                 }}
-                style={{justifyContent: 'center'}}>
+                style={{justifyContent: 'center', paddingHorizontal: 16}}>
                 <Add onFocus={isOpen} />
               </Pressable>
             ),

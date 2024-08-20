@@ -7,7 +7,6 @@ import BottomSheet, {
 import {StyleSheet, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Close from '../../assets/Close';
-import {BottomSheetModalRef} from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetModalProvider/types';
 import {BottomSheetMethods} from '@gorhom/bottom-sheet/lib/typescript/types';
 
 interface Props {
@@ -32,22 +31,18 @@ const CustomBottomSheet = ({
   const snapPoints = useMemo(() => snapPointsArray ?? ['50%', '100%'], []);
 
   const renderBackdrop = useCallback(
-    (props: any) => (
-      <BottomSheetBackdrop
-        {...props}
-        disappearsOnIndex={1}
-        appearsOnIndex={2}
-      />
-    ),
+    (props: any) => <BottomSheetBackdrop {...props} appearsOnIndex={[1]} />,
     [],
   );
+
   return (
     <BottomSheet
       ref={bottomSheetRef}
       snapPoints={snapPoints}
-      index={-1}
+      index={1}
       enablePanDownToClose
       style={styles.bottomSheet}
+      animationConfigs={{duration: 200}}
       backdropComponent={renderBackdrop}>
       <BottomSheetView style={styles.contentContainer}>
         <View style={styles.sheetHeader}>
@@ -70,14 +65,11 @@ export default CustomBottomSheet;
 const styles = StyleSheet.create({
   bottomSheet: {
     borderRadius: 25,
-    backgroundColor: '#aaa',
     position: 'relative',
-    zIndex: -100,
+    zIndex: -10,
   },
   contentContainer: {
-    // alignItems: 'center',
     flex: 1,
-    marginBottom: 98,
   },
   sheetHeader: {
     flexDirection: 'row',

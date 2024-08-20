@@ -61,7 +61,7 @@ const AddFormsList = ({onSheetClose}: Props) => {
               navigation.navigate(item.path);
               setTimeout(() => {
                 onSheetClose();
-              }, 2000);
+              }, 200);
             }
           }}>
           <Image source={item.image} />
