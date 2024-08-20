@@ -7,6 +7,7 @@ import Like from '../assets/Like';
 import Header from '../components/Header/Header';
 import Back from '../assets/Back';
 import AddRecipe from '../screens/AddRecipe';
+import ImageView from '../screens/ImageView';
 
 export default function MainStack() {
   const Stack = createNativeStackNavigator();
@@ -17,10 +18,14 @@ export default function MainStack() {
       <Stack.Screen name="SplashScreen" component={SplashScreen} />
       <Stack.Screen name="BottomTab" component={BottomTab} />
       <Stack.Screen
+        name="ImageView"
+        component={ImageView}
+      />
+      <Stack.Screen
         name="AddRecipe"
         component={AddRecipe}
         options={() => ({
-          headerShown:true,
+          headerShown: true,
           header: () => <Header title="Add Recipe" isBack />,
         })}
       />

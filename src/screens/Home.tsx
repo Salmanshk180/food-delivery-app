@@ -16,14 +16,16 @@ import {useState} from 'react';
 import FEMALE1 from '../assets/Female1.png';
 import FEMALE2 from '../assets/Female2.png';
 import FEMALE3 from '../assets/Female3.png';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigation} from '../types';
 export function Home() {
   const [selectedDate, setSelectedDate] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
-
+  const navigation = useNavigation<StackNavigation>();
   const notesText =
     'Patient needs to reduce daily calorie intake and increase consumption Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla at tenetur ad distinctio velit. Ipsam eius suscipit deserunt quibusdam, expedita totam cum incidunt ea commodi iure reiciendis sint voluptatum vero, quasi quidem repudiandae consequuntur animi, molestias dicta magnam? Quisquam, eius.';
-  const maxLength = 80;
-  const truncatedText = notesText.slice(0, maxLength) + '...';
+  const maxLength = 69;
+  const truncatedText = notesText.slice(0, maxLength) + '';
   return (
     <ScrollView style={styles.container} contentContainerStyle={{flexGrow: 1}}>
       <View style={styles.header}>
@@ -86,11 +88,18 @@ export function Home() {
             showsHorizontalScrollIndicator={false}
             horizontal
             renderItem={item => (
-              <Image
-                source={item.item}
-                borderRadius={11}
-                style={{width: 125, height: 168}}
-              />
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('ImageView', {
+                    source: item.item as string,
+                  });
+                }}>
+                <Image
+                  source={item.item}
+                  borderRadius={11}
+                  style={{width: 125, height: 168}}
+                />
+              </TouchableOpacity>
             )}
           />
         </View>
@@ -100,14 +109,12 @@ export function Home() {
             <Text style={{color: '#303030', fontWeight: '500', fontSize: 16}}>
               {isExpanded ? notesText : truncatedText}
             </Text>
-          </Text>
-          <TouchableOpacity
-            style={[styles.readMoreButton, {right: isExpanded ? 165 : 0}]}
-            onPress={() => setIsExpanded(!isExpanded)}>
-            <Text style={styles.readMoreText}>
-              {isExpanded ? 'Read less' : 'Read more...'}
+            <Text
+              style={[styles.readMoreText, {fontWeight: '800'}]}
+              onPress={() => setIsExpanded(!isExpanded)}>
+              {isExpanded ? ' Read less' : ' Read more...'}
             </Text>
-          </TouchableOpacity>
+          </Text>
         </View>
       </View>
     </ScrollView>
@@ -159,7 +166,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 11,
   },
   readMoreText: {
-    color: 'green',
+    color: '#76BC3F',
     fontSize: 16,
     fontWeight: '800',
   },

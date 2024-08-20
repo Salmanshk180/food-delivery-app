@@ -1,4 +1,5 @@
 import {NavigationProp} from '@react-navigation/native';
+import {ImageSourcePropType} from 'react-native';
 
 export type ScreenNames =
   | 'Home'
@@ -6,14 +7,16 @@ export type ScreenNames =
   | 'BottomTab'
   | 'Recipes'
   | 'RecipeDetail'
-  | 'AddRecipe';
+  | 'AddRecipe'
+  | 'ImageView';
 
 export type RootStackParamList = {
   Home: undefined;
   HomeStack: undefined;
   BottomTab: undefined;
   Recipes: undefined;
-  RecipeDetail: {title: string,data: any};
+  RecipeDetail: {title: string; data: any};
   AddRecipe: undefined;
+  ImageView: {source: string};
 };
 export type StackNavigation = NavigationProp<RootStackParamList>;

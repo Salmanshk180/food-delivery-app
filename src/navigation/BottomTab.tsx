@@ -110,7 +110,7 @@ export default function BottomTab() {
             }}
           />
         }
-        snapPointsArray={['25%', '50%', '70%']}
+        snapPointsArray={['25%', '66%']}
         title="Add"
       />
     </>
