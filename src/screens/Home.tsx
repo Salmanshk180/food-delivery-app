@@ -8,7 +8,6 @@ import {
   ScrollView,
 } from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Logo from '../assets/Logo';
 import Notification from '../assets/Notification';
 import Goal from '../assets/Goal';
 import {ConsultationData} from '../constants/category';
@@ -18,6 +17,7 @@ import FEMALE2 from '../assets/Female2.png';
 import FEMALE3 from '../assets/Female3.png';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigation} from '../types';
+import SmallLogo from '../assets/SmallLogo';
 export function Home() {
   const [selectedDate, setSelectedDate] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
@@ -29,7 +29,7 @@ export function Home() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={{flexGrow: 1}}>
       <View style={styles.header}>
-        <Logo />
+        <SmallLogo/>
         <Notification />
       </View>
       <View style={styles.statistics}>

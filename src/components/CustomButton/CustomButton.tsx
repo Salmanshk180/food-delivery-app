@@ -3,16 +3,17 @@ import React from 'react';
 
 interface Props {
   onPress: () => void;
+  title?: string;
 }
 
-const CustomButton = ({onPress}: Props) => {
+const CustomButton = ({onPress, title}: Props) => {
   return (
     <TouchableOpacity
       activeOpacity={0.5}
       onPress={onPress}
       style={styles.buttonContainer}>
       <View style={[styles.button]}>
-        <Text style={styles.buttonText}>Save</Text>
+        <Text style={styles.buttonText}>{title ?? 'Save'}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 16,
     backgroundColor: '#fff',
-    borderTopWidth: 0.5,
+    // borderTopWidth: 0.5,
     borderColor: '#D8DADC',
   },
   button: {

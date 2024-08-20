@@ -4,19 +4,23 @@ import {ImageSourcePropType} from 'react-native';
 export type ScreenNames =
   | 'Home'
   | 'HomeStack'
+  | 'Login'
   | 'BottomTab'
   | 'Recipes'
   | 'RecipeDetail'
   | 'AddRecipe'
-  | 'ImageView';
+  | 'ImageView'
+  |'Verification';
 
 export type RootStackParamList = {
   Home: undefined;
   HomeStack: undefined;
   BottomTab: undefined;
+  Login: undefined;
   Recipes: undefined;
   RecipeDetail: {title: string; data: any};
   AddRecipe: undefined;
   ImageView: {source: string};
+  Verification: undefined;
 };
 export type StackNavigation = NavigationProp<RootStackParamList>;
