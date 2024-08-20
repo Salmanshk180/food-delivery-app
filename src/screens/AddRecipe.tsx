@@ -5,7 +5,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Dimensions,
+
 } from 'react-native';
 import React, {ChangeEvent, useState} from 'react';
 import CustomTextField from '../components/CustomTextField/CustomTextField';
@@ -202,8 +202,7 @@ const AddRecipe = ({navigation}: any) => {
           />
           <View style={styles.inputContainer}>
             <Text style={styles.text}>Date</Text>
-            <TouchableOpacity
-              onPress={showDatePicker}
+            <View
               style={{
                 flex: 1,
                 borderWidth: 1,
@@ -222,8 +221,10 @@ const AddRecipe = ({navigation}: any) => {
                 value={date}
                 editable={false}
               />
-              <Calender />
-            </TouchableOpacity>
+              <TouchableOpacity onPress={showDatePicker}>
+                <Calender />
+              </TouchableOpacity>
+            </View>
           </View>
           <CustomTextField
             label="Add Ingredients"
