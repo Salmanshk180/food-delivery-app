@@ -31,25 +31,62 @@ const CustomTextField = ({
 }: Props) => {
   const inputRef = useRef<TextInput>(null);
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
-      <Pressable
-        style={styles.inputContainer}
-        onPress={() => inputRef.current?.focus()}>
-        <TextInput
-          ref={inputRef}
-          placeholder={placeHolder}
-          placeholderTextColor={'#838383'}
-          style={styles.input}
-          value={value}
-          onChangeText={handleChange}
-          onBlur={handleBlur}
-          onSubmitEditing={onKeyDown}
-        />
-        {icon}
-      </Pressable>
-      {isError && <Text style={{color: 'red', fontSize: 14}}>{error}</Text>}
-    </View>
+    // <View style={styles.container}>
+    //   <Text style={styles.label}>{label}</Text>
+    //   <Pressable
+    //     style={styles.inputContainer}
+    //     onPress={() => inputRef.current?.focus()}>
+    //     <TextInput
+    //       ref={inputRef}
+    //       placeholder={placeHolder}
+    //       placeholderTextColor={'#838383'}
+    //       style={styles.input}
+    //       value={value}
+    //       onChangeText={handleChange}
+    //       onBlur={handleBlur}
+    //       onSubmitEditing={onKeyDown}
+    //     />
+    //     {icon}
+    //   </Pressable>
+    //   {isError && <Text style={{color: 'red', fontSize: 14}}>{error}</Text>}
+    // </View>
+    <>
+      <View style={styles.container}>
+        <Text style={styles.label}>{label}</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            flex: 1,
+            alignItems: 'center',
+            borderWidth: 1,
+            borderRadius: 10,
+            borderColor: '#D8DADC',
+          }}>
+          <TextInput
+            style={{
+              flex: 1,
+              paddingHorizontal: 16,
+              paddingVertical: 18,
+              color: '#838383',
+              fontSize: 16,
+              fontWeight: '400',
+            }}
+            placeholder={placeHolder}
+            placeholderTextColor={'#838383'}
+            value={value}
+            onChangeText={handleChange}
+            onBlur={handleBlur}
+            onSubmitEditing={onKeyDown}
+          />
+          {icon && (
+            <View style={{paddingHorizontal: 16, paddingVertical: 18}}>
+              {icon}
+            </View>
+          )}
+        </View>
+        {isError && <Text style={{color: 'red', fontSize: 14}}>{error}</Text>}
+      </View>
+    </>
   );
 };
 
