@@ -31,7 +31,15 @@ const CustomBottomSheet = ({
   const snapPoints = useMemo(() => snapPointsArray ?? ['50%', '100%'], []);
 
   const renderBackdrop = useCallback(
-    (props: any) => <BottomSheetBackdrop {...props} appearsOnIndex={[1]} />,
+    (props: any) => (
+      <BottomSheetBackdrop
+        {...props}
+        appearsOnIndex={1}
+        onPress={() => {
+          onClose();
+        }}
+      />
+    ),
     [],
   );
 

@@ -15,8 +15,6 @@ interface Props {
   value: string;
   handleChange: (e: string | ChangeEvent<any>) => void;
   handleBlur: (e: any) => void;
-  error: string;
-  isError: boolean;
 }
 
 const InputBadge = ({
@@ -26,8 +24,6 @@ const InputBadge = ({
   value,
   handleBlur,
   handleChange,
-  error,
-  isError
 }: Props) => {
   const inputRef = useRef<TextInput>(null);
   return (
@@ -49,7 +45,6 @@ const InputBadge = ({
           {label}
         </Text>
       </Pressable>
-      {isError && <Text style={{color: 'red', fontSize: 14}}>{error}</Text>}
     </View>
   );
 };

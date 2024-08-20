@@ -10,7 +10,6 @@ const Filters = ({data, checkedValues, setCheckedValues, title}: any) => {
         : [...prevState, value],
     );
   };
-  console.log('checked values:', JSON.stringify(checkedValues,null,2))
   return (
     <>
       <View style={styles.filterContainer}>

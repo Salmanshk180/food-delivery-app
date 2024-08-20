@@ -6,7 +6,6 @@ import {
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
-
 } from 'react-native';
 import React, {ChangeEvent, useState} from 'react';
 import CustomTextField from '../components/CustomTextField/CustomTextField';
@@ -23,6 +22,7 @@ import MediaPicker from '../components/MediaPicker/MediaPicker';
 import RoutePreventModal from '../components/RoutePreventModal/RoutePreventModal';
 import {DateTimePickerAndroid} from '@react-native-community/datetimepicker';
 import Calender from '../assets/Calender';
+import Error from '../components/Error/Error';
 const AddRecipe = ({navigation}: any) => {
   const [showRoutePreventModal, setShowRoutePreventModal] = useState(false);
   const [pendingRoute, setPendingRoute] = useState<any>(null);
@@ -116,7 +116,6 @@ const AddRecipe = ({navigation}: any) => {
     setPendingRoute(null);
   };
   const handleDateChange = (event: any, selectedDate: Date | undefined) => {
-    console.log('date event',JSON.stringify(event,null,2))
     if (selectedDate) {
       const formattedDate = selectedDate.toISOString().split('T')[0];
       setDate(formattedDate);
@@ -133,9 +132,7 @@ const AddRecipe = ({navigation}: any) => {
     });
   };
   return (
-    <KeyboardAvoidingView style={{flex:1}} behavior='height'>
-      
-
+    <KeyboardAvoidingView style={{flex: 1}} behavior="height">
       <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
         <View style={styles.container}>
           <MediaPicker
@@ -256,10 +253,6 @@ const AddRecipe = ({navigation}: any) => {
                   value={formik.values.hours}
                   handleChange={formik.handleChange('hours')}
                   handleBlur={formik.handleBlur('hours')}
-                  error={formik.errors.hours!}
-                  isError={
-                    formik.errors.hours && formik.touched.hours ? true : false
-                  }
                 />
               </View>
               <View style={{flex: 1}}>
@@ -270,13 +263,15 @@ const AddRecipe = ({navigation}: any) => {
                   value={formik.values.mins}
                   handleChange={formik.handleChange('mins')}
                   handleBlur={formik.handleBlur('mins')}
-                  error={formik.errors.mins!}
-                  isError={
-                    formik.errors.mins && formik.touched.mins ? true : false
-                  }
                 />
               </View>
             </View>
+            <Error
+              isFirstError={formik.errors.hours && formik.touched.hours}
+              isSecondError={formik.errors.mins && formik.touched.mins}
+              firstError={formik.errors.hours}
+              secondError={formik.errors.mins!}
+            />
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.text}>Nutritions</Text>
@@ -288,12 +283,6 @@ const AddRecipe = ({navigation}: any) => {
                 value={formik.values.calories}
                 handleChange={formik.handleChange('calories')}
                 handleBlur={formik.handleBlur('calories')}
-                error={formik.errors.calories!}
-                isError={
-                  formik.errors.calories && formik.touched.calories
-                    ? true
-                    : false
-                }
               />
               <InputBadge
                 placeholder="Protein"
@@ -302,12 +291,14 @@ const AddRecipe = ({navigation}: any) => {
                 value={formik.values.protein}
                 handleChange={formik.handleChange('protein')}
                 handleBlur={formik.handleBlur('protein')}
-                error={formik.errors.protein!}
-                isError={
-                  formik.errors.protein && formik.touched.protein ? true : false
-                }
               />
             </View>
+            <Error
+              isFirstError={formik.errors.calories && formik.touched.calories}
+              isSecondError={formik.errors.protein && formik.touched.protein}
+              firstError={formik.errors.calories!}
+              secondError={formik.errors.protein!}
+            />
             <View style={styles.inputBadgeContainer}>
               <InputBadge
                 placeholder="Carbs"
@@ -316,10 +307,6 @@ const AddRecipe = ({navigation}: any) => {
                 value={formik.values.carbs}
                 handleChange={formik.handleChange('carbs')}
                 handleBlur={formik.handleBlur('carbs')}
-                error={formik.errors.carbs!}
-                isError={
-                  formik.errors.carbs && formik.touched.carbs ? true : false
-                }
               />
               <InputBadge
                 placeholder="Fat"
@@ -328,12 +315,14 @@ const AddRecipe = ({navigation}: any) => {
                 value={formik.values.fats}
                 handleChange={formik.handleChange('fats')}
                 handleBlur={formik.handleBlur('fats')}
-                error={formik.errors.fats!}
-                isError={
-                  formik.errors.fats && formik.touched.fats ? true : false
-                }
               />
             </View>
+            <Error
+              isFirstError={formik.errors.carbs && formik.touched.carbs}
+              isSecondError={formik.errors.fats && formik.touched.fats}
+              firstError={formik.errors.carbs!}
+              secondError={formik.errors.fats!}
+            />
           </View>
         </View>
       </ScrollView>

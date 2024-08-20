@@ -25,10 +25,10 @@ export default function MainStack() {
       <Stack.Screen
         name="AddRecipe"
         component={AddRecipe}
-        options={() => ({
+        options={{
           headerShown: true,
           header: () => <Header title="Add Recipe" isBack />,
-        })}
+        }}
       />
       <Stack.Screen
         name="RecipeDetail"

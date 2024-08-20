@@ -12,7 +12,7 @@ import Add from '../assets/Add';
 import {BottomSheetMethods} from '@gorhom/bottom-sheet/lib/typescript/types';
 import CustomBottomSheet from '../components/BottomSheet/BottomSheet';
 import Like from '../assets/Like';
-import {Pressable, Text} from 'react-native';
+import {Pressable} from 'react-native';
 import AddFormsList from '../components/AddFormsList/AddFormsList';
 
 export default function BottomTab() {
@@ -59,13 +59,7 @@ export default function BottomTab() {
           name="Recipes"
           component={Recipes}
           options={{
-            header: () => (
-              <Header
-                title="Recipe"
-                backIcon={<TabRecipeIcon />}
-                icon={<Like />}
-              />
-            ),
+            header: () => <Header title="Recipe" />,
             tabBarActiveTintColor: '#76BC3F',
             tabBarIcon: ({focused}) => <TabRecipeIcon focused={focused} />,
           }}
@@ -78,7 +72,7 @@ export default function BottomTab() {
               <Pressable
                 onPress={() => {
                   setIsOpen(!isOpen);
-                isOpen ? CloseBottomSheet() : OpenBottomSheet()
+                  isOpen ? CloseBottomSheet() : OpenBottomSheet();
                 }}
                 style={{justifyContent: 'center', paddingHorizontal: 16}}>
                 <Add onFocus={isOpen} />
@@ -96,23 +90,25 @@ export default function BottomTab() {
           }}
         />
       </Tab.Navigator>
-      <CustomBottomSheet
-        bottomSheetRef={bottomSheetRef}
-        onClose={() => {
-          CloseBottomSheet();
-          setIsOpen(!isOpen);
-        }}
-        component={
-          <AddFormsList
-            onSheetClose={() => {
-              CloseBottomSheet();
-              setIsOpen(!isOpen);
-            }}
-          />
-        }
-        snapPointsArray={['25%', '66%']}
-        title="Add"
-      />
+      {isOpen && (
+        <CustomBottomSheet
+          bottomSheetRef={bottomSheetRef}
+          onClose={() => {
+            CloseBottomSheet();
+            setIsOpen(!isOpen);
+          }}
+          component={
+            <AddFormsList
+              onSheetClose={() => {
+                CloseBottomSheet();
+                setIsOpen(!isOpen);
+              }}
+            />
+          }
+          snapPointsArray={['66%','66%']}
+          title="Add"
+        />
+      )}
     </>
   );
 }

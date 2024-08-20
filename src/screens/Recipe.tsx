@@ -25,11 +25,14 @@ import Filters from '../components/Filters/Filters';
 
 const Recipes = () => {
   const bottomSheetRef = useRef<BottomSheetMethods>(null);
+  const [isOpen, setIsOPen] = useState(false);
   const OpenBottomSheet = useCallback(() => {
+    setIsOPen(!isOpen);
     bottomSheetRef.current?.expand();
   }, []);
   const CloseBottomSheet = useCallback(() => {
     bottomSheetRef.current?.close();
+    setIsOPen(!isOpen);
   }, []);
   const [checkedValues, setCheckedValues] = useState<string[]>([]);
   const {width} = Dimensions.get('screen');
@@ -71,35 +74,41 @@ const Recipes = () => {
           />
         </View>
       </View>
-      <CustomBottomSheet
-        bottomSheetRef={bottomSheetRef}
-        onClose={CloseBottomSheet}
-        component={
-          <ScrollView>
-            <Filters
-              data={TIME_TO_MAKE}
-              checkedValues={checkedValues}
-              setCheckedValues={setCheckedValues}
-              title={'Time to make'}
-            />
-            <View style={{borderBottomWidth: 1, borderColor: '#EBEBEB'}} />
-            <Filters
-              data={FOOD_TYPE}
-              checkedValues={checkedValues}
-              setCheckedValues={setCheckedValues}
-              title={'Food type'}
-            />
-            <View style={{borderBottomWidth: 1, borderColor: '#EBEBEB'}} />
-            <Filters
-              data={CAN_HAVE_IN}
-              checkedValues={checkedValues}
-              setCheckedValues={setCheckedValues}
-              title={'Can have in'}
-            />
-          </ScrollView>
-        }
-        title="Filters"
-      />
+      {isOpen && (
+        <CustomBottomSheet
+          bottomSheetRef={bottomSheetRef}
+          onClose={() => {
+            CloseBottomSheet();
+            setIsOPen(!isOpen);
+          }}
+          snapPointsArray={['95%', '95%']}
+          component={
+            <ScrollView>
+              <Filters
+                data={TIME_TO_MAKE}
+                checkedValues={checkedValues}
+                setCheckedValues={setCheckedValues}
+                title={'Time to make'}
+              />
+              <View style={{borderBottomWidth: 1, borderColor: '#EBEBEB'}} />
+              <Filters
+                data={FOOD_TYPE}
+                checkedValues={checkedValues}
+                setCheckedValues={setCheckedValues}
+                title={'Food type'}
+              />
+              <View style={{borderBottomWidth: 1, borderColor: '#EBEBEB'}} />
+              <Filters
+                data={CAN_HAVE_IN}
+                checkedValues={checkedValues}
+                setCheckedValues={setCheckedValues}
+                title={'Can have in'}
+              />
+            </ScrollView>
+          }
+          title="Filters"
+        />
+      )}
     </>
   );
 };
