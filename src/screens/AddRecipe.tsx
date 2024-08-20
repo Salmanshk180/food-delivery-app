@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  KeyboardAvoidingView,
 
 } from 'react-native';
 import React, {ChangeEvent, useState} from 'react';
@@ -115,6 +116,7 @@ const AddRecipe = ({navigation}: any) => {
     setPendingRoute(null);
   };
   const handleDateChange = (event: any, selectedDate: Date | undefined) => {
+    console.log('date event',JSON.stringify(event,null,2))
     if (selectedDate) {
       const formattedDate = selectedDate.toISOString().split('T')[0];
       setDate(formattedDate);
@@ -126,18 +128,14 @@ const AddRecipe = ({navigation}: any) => {
     DateTimePickerAndroid.open({
       value: date ? new Date(date) : new Date(),
       onChange: handleDateChange,
-      mode: 'date',
+      mode: 'time',
       is24Hour: true,
     });
   };
   return (
-    <>
-      {showRoutePreventModal && (
-        <RoutePreventModal
-          onDiscard={handleDiscardChanges}
-          onCancel={handleCloseModal}
-        />
-      )}
+    <KeyboardAvoidingView style={{flex:1}} behavior='height'>
+      
+
       <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
         <View style={styles.container}>
           <MediaPicker
@@ -340,7 +338,13 @@ const AddRecipe = ({navigation}: any) => {
         </View>
       </ScrollView>
       <CustomButton onPress={formik.handleSubmit} />
-    </>
+      {showRoutePreventModal && (
+        <RoutePreventModal
+          onDiscard={handleDiscardChanges}
+          onCancel={handleCloseModal}
+        />
+      )}
+    </KeyboardAvoidingView>
   );
 };
 

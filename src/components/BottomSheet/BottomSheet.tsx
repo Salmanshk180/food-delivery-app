@@ -1,5 +1,6 @@
-import React, {RefObject, useMemo, useRef} from 'react';
+import React, {RefObject, useCallback, useMemo, useRef} from 'react';
 import BottomSheet, {
+  BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
@@ -29,13 +30,25 @@ const CustomBottomSheet = ({
   snapPointsArray,
 }: Props) => {
   const snapPoints = useMemo(() => snapPointsArray ?? ['50%', '100%'], []);
+
+  const renderBackdrop = useCallback(
+    (props: any) => (
+      <BottomSheetBackdrop
+        {...props}
+        disappearsOnIndex={1}
+        appearsOnIndex={2}
+      />
+    ),
+    [],
+  );
   return (
     <BottomSheet
       ref={bottomSheetRef}
       snapPoints={snapPoints}
       index={-1}
       enablePanDownToClose
-      style={styles.bottomSheet}>
+      style={styles.bottomSheet}
+      backdropComponent={renderBackdrop}>
       <BottomSheetView style={styles.contentContainer}>
         <View style={styles.sheetHeader}>
           <Text style={styles.sheetHeaderText}>{title}</Text>
@@ -57,10 +70,14 @@ export default CustomBottomSheet;
 const styles = StyleSheet.create({
   bottomSheet: {
     borderRadius: 25,
+    backgroundColor: '#aaa',
+    position: 'relative',
+    zIndex: -100,
   },
   contentContainer: {
-    flex: 1,
     // alignItems: 'center',
+    flex: 1,
+    marginBottom: 98,
   },
   sheetHeader: {
     flexDirection: 'row',

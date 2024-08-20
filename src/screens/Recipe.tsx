@@ -63,7 +63,7 @@ const Recipes = () => {
             )}
           />
         </View>
-        <View>
+        <View style={{flex: 1}}>
           <FlatList
             data={RECIPES}
             contentContainerStyle={{paddingHorizontal: 20}}

@@ -47,13 +47,10 @@ export default function RecipeCard({
         <View style={[styles.detailsContainer, detailStyle]}>
           <View style={styles.textContainer}>
             <NonVeg isVeg={recipe.isVeg} />
-            <Text style={[styles.text,{flex:1}]}>{recipe.name}afsdafsdafasdfsfdfafdfsdafsdfasfsf</Text>
+            <Text style={[styles.text, {flex: 1}]}>{recipe.name}</Text>
           </View>
           {isTimer ? (
-            <View style={[styles.timerContainer,{
-              // flex:1,
-              // borderWidth:1
-            }]}>
+            <View style={[styles.timerContainer]}>
               <Timer />
               <Text style={styles.timerText}>{recipe.time} minutes</Text>
             </View>
@@ -87,7 +84,6 @@ const styles = StyleSheet.create({
   },
   detailsContainer: {
     flex: 1,
-    borderWidth:1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingTop: 10,
@@ -97,7 +93,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    flex:1,
+    flex: 1,
   },
   text: {
     fontWeight: '900',
@@ -111,7 +107,6 @@ const styles = StyleSheet.create({
   },
   timerText: {
     color: '#E64646',
-    
   },
   noTimerContainer: {
     flexDirection: 'row',

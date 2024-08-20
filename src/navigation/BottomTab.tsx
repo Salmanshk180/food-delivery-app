@@ -1,4 +1,4 @@
-import React, {useCallback, useRef} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import TabRecipeIcon from '../components/tabBarIcons/TabRecipeIcon';
 import TabHomeIcon from '../components/tabBarIcons/TabHomeIcon';
@@ -17,6 +17,7 @@ import AddFormsList from '../components/AddFormsList/AddFormsList';
 
 export default function BottomTab() {
   const Tab = createBottomTabNavigator();
+  const [isOpen, setIsOpen] = useState(false);
   const bottomSheetRef = useRef<BottomSheetMethods>(null);
   const OpenBottomSheet = useCallback(() => {
     bottomSheetRef.current?.expand();
@@ -30,14 +31,11 @@ export default function BottomTab() {
         screenOptions={{
           tabBarStyle: {
             height: 98,
-            gap: 10,
-            justifyContent: 'center',
-            alignItems: 'center',
+            position: 'relative',
+            zIndex: 100,
           },
           tabBarItemStyle: {
-            justifyContent: 'center',
             paddingVertical: 19,
-            alignItems: 'center',
           },
           tabBarLabelPosition: 'below-icon',
           headerTitleStyle: {
@@ -78,9 +76,12 @@ export default function BottomTab() {
           options={({route, navigation}) => ({
             tabBarButton: () => (
               <Pressable
-                onPress={OpenBottomSheet}
+                onPress={() => {
+                  setIsOpen(!isOpen);
+                  OpenBottomSheet();
+                }}
                 style={{justifyContent: 'center'}}>
-                <Add />
+                <Add onFocus={isOpen} />
               </Pressable>
             ),
           })}
@@ -97,9 +98,12 @@ export default function BottomTab() {
       </Tab.Navigator>
       <CustomBottomSheet
         bottomSheetRef={bottomSheetRef}
-        onClose={CloseBottomSheet}
+        onClose={() => {
+          CloseBottomSheet();
+          setIsOpen(!isOpen);
+        }}
         component={<AddFormsList onSheetClose={CloseBottomSheet} />}
-        snapPointsArray={['25%', '50%', '75%']}
+        snapPointsArray={['25%', '50%', '70%']}
         title="Add"
       />
     </>
