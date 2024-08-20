@@ -102,7 +102,14 @@ export default function BottomTab() {
           CloseBottomSheet();
           setIsOpen(!isOpen);
         }}
-        component={<AddFormsList onSheetClose={CloseBottomSheet} />}
+        component={
+          <AddFormsList
+            onSheetClose={() => {
+              CloseBottomSheet();
+              setIsOpen(!isOpen);
+            }}
+          />
+        }
         snapPointsArray={['25%', '50%', '70%']}
         title="Add"
       />

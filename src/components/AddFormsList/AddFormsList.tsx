@@ -21,25 +21,21 @@ const AddFormsList = ({onSheetClose}: Props) => {
     {
       id: '2',
       name: 'Client',
-      path: 'AddRecipe' as const,
       image: ClientImage,
     },
     {
       id: '3',
       name: 'Feed',
-      path: 'AddRecipe' as const,
       image: FeedImage,
     },
     {
       id: '4',
       name: 'Diet Template',
-      path: 'AddRecipe' as const,
       image: DietImage,
     },
     {
       id: '5',
       name: 'Supplement Template',
-      path: 'AddRecipe' as const,
       image: SupplementImage,
     },
   ];
@@ -61,10 +57,12 @@ const AddFormsList = ({onSheetClose}: Props) => {
             paddingBottom: 10,
           }}
           onPress={() => {
-            navigation.navigate(item.path);
-            setTimeout(() => {
-              onSheetClose();
-            }, 2000);
+            if (item.path) {
+              navigation.navigate(item.path);
+              setTimeout(() => {
+                onSheetClose();
+              }, 2000);
+            }
           }}>
           <Image source={item.image} />
           <Text style={{color: '#000', fontSize: 20, fontWeight: 500}}>
