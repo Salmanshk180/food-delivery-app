@@ -14,6 +14,7 @@ import CustomBottomSheet from '../components/BottomSheet/BottomSheet';
 import Like from '../assets/Like';
 import {Pressable} from 'react-native';
 import AddFormsList from '../components/AddFormsList/AddFormsList';
+import Profile from '../components/tabBarIcons/Profile';
 
 export default function BottomTab() {
   const Tab = createBottomTabNavigator();
@@ -87,6 +88,15 @@ export default function BottomTab() {
             header: () => <Header title="Feeds" isBack />,
             tabBarActiveTintColor: '#76BC3F',
             tabBarIcon: ({focused}) => <TabMyDiet focused={focused} />,
+          }}
+        />
+        <Tab.Screen
+          name="My Profile"
+          component={Feed}
+          options={{
+            header: () => <Header title="Feeds" isBack />,
+            tabBarActiveTintColor: '#76BC3F',
+            tabBarIcon: ({focused}) => <Profile focused={focused} />,
           }}
         />
       </Tab.Navigator>

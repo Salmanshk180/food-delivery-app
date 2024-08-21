@@ -50,17 +50,17 @@ const Login = () => {
                 onBlur={handleBlur('phoneNumber')}
               />
             </View>
-            {errors.phoneNumber && (
-              <Text style={styles.errorText}>{errors.phoneNumber}</Text>
-            )}
+          {errors.phoneNumber && (
+            <Text style={styles.errorText}>{errors.phoneNumber}</Text>
+          )}
           </View>
         </View>
-        <CustomButton
-          title={'Send OTP'}
-          onPress={() => {
-            handleSubmit();
-          }}
-        />
+          <CustomButton
+            title={'Send OTP'}
+            onPress={() => {
+              handleSubmit();
+            }}
+          />
       </View>
     </View>
   );
@@ -137,4 +137,5 @@ const styles = StyleSheet.create({
     color: 'red',
     fontSize: 14,
   },
+ 
 });
