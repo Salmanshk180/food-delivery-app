@@ -87,14 +87,12 @@ const Verification = () => {
             Didn’t receive code? <Text style={styles.resendLink}>Resend</Text>
           </Text>
         </View>
-        <View style={styles.buttonContainer}>
-          <CustomButton
-            title={'Verify'}
-            onPress={() => {
-              handleSubmit();
-            }}
-          />
-        </View>
+        <CustomButton
+          title={'Verify'}
+          onPress={() => {
+            handleSubmit();
+          }}
+        />
       </View>
     </View>
   );
@@ -105,14 +103,10 @@ export default Verification;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'space-between',
     backgroundColor: '#fff',
   },
   topSection: {
     flex: 0.6,
-    justifyContent: 'space-between',
-    width: '100%',
   },
   backButton: {
     top: 20,
@@ -135,17 +129,12 @@ const styles = StyleSheet.create({
   bottomSection: {
     flex: 0.4,
     justifyContent: 'space-between',
-    width: '100%',
   },
   otpContainer: {
-    alignItems: 'flex-start',
-    width: '100%',
     gap: 24,
     paddingHorizontal: 20,
   },
   otpTextContainer: {
-    alignItems: 'flex-start',
-    width: '100%',
     gap: 5,
   },
   otpTitle: {
@@ -183,8 +172,5 @@ const styles = StyleSheet.create({
   errorText: {
     color: 'red',
     fontSize: 14,
-  },
-  buttonContainer: {
-    width: '100%',
   },
 });

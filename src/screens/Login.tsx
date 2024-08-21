@@ -50,19 +50,17 @@ const Login = () => {
                 onBlur={handleBlur('phoneNumber')}
               />
             </View>
-          {errors.phoneNumber && (
-            <Text style={styles.errorText}>{errors.phoneNumber}</Text>
-          )}
+            {errors.phoneNumber && (
+              <Text style={styles.errorText}>{errors.phoneNumber}</Text>
+            )}
           </View>
         </View>
-        <View style={styles.buttonContainer}>
-          <CustomButton
-            title={'Send OTP'}
-            onPress={() => {
-              handleSubmit();
-            }}
-          />
-        </View>
+        <CustomButton
+          title={'Send OTP'}
+          onPress={() => {
+            handleSubmit();
+          }}
+        />
       </View>
     </View>
   );
@@ -76,7 +74,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   logoContainer: {
-    width: '100%',
     flex: 0.6,
   },
   text: {
@@ -88,14 +85,10 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   formContainer: {
-    alignItems: 'flex-start',
-    width: '100%',
     flex: 0.4,
     justifyContent: 'space-between',
   },
   titleContainer: {
-    alignItems: 'flex-start',
-    width: '100%',
     gap: 5,
     paddingHorizontal: 20,
   },
@@ -111,7 +104,6 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: '100%',
-    alignItems: 'flex-start',
     gap: 24,
   },
   label: {
@@ -144,8 +136,5 @@ const styles = StyleSheet.create({
   errorText: {
     color: 'red',
     fontSize: 14,
-  },
-  buttonContainer: {
-    width: '100%',
   },
 });
