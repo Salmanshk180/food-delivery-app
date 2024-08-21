@@ -10,6 +10,7 @@ import AddRecipe from '../screens/AddRecipe';
 import ImageView from '../screens/ImageView';
 import Login from '../screens/Login';
 import Verification from '../screens/Verification';
+import {color} from 'react-native-elements/dist/helpers';
 
 export default function MainStack() {
   const Stack = createNativeStackNavigator();
@@ -19,11 +20,20 @@ export default function MainStack() {
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="SplashScreen" component={SplashScreen} />
       <Stack.Screen name="BottomTab" component={BottomTab} />
-      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{statusBarColor: '#fff', statusBarStyle: 'dark'}}
+      />
       <Stack.Screen
         name="Verification"
         component={Verification}
-        options={{headerShown: true}}
+        options={{
+          headerShown: false,
+          animation: 'slide_from_right',
+          statusBarColor: '#fff',
+          statusBarStyle: 'dark',
+        }}
       />
       <Stack.Screen
         name="ImageView"

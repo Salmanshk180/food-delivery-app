@@ -10,6 +10,7 @@ export default function SplashScreen() {
     setTimeout(() => {
       navigation.navigate('Login');
     }, 2000);
+    
   }, [navigation]);
 
   return (
