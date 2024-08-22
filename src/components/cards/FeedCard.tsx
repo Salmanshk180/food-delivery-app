@@ -1,39 +1,27 @@
+import moment from 'moment';
 import React from 'react';
-import {
-  View,
-  Text,
-  ImageBackground,
-  TouchableOpacity,
-  StyleSheet,
-  Image,
-} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
 
 const FeedCard = ({data}: any) => {
+  const feedDate = moment(data?.created_at).toArray();
+  const timeAgo = moment(feedDate.slice(0, 2)).fromNow();
   return (
-    // <TouchableOpacity activeOpacity={0.6} style={{flex: 1}}>
-    //   <View style={styles.cardContainer}>
-    //     <ImageBackground source={data.image} style={styles.imageBackground}>
-    //       <View style={styles.overlay}>
-    //         <View style={styles.textContainer}>
-    //           <Text style={styles.titleText}>{data.text}</Text>
-    //           <View style={styles.infoContainer}>
-    //             <Text style={styles.infoText}>{data.date}</Text>
-    //             <Text style={styles.infoText}>{data.time + ' min'}</Text>
-    //           </View>
-    //         </View>
-    //       </View>
-    //     </ImageBackground>
-    //   </View>
-    // </TouchableOpacity>
-    <TouchableOpacity style={{flex: 1}} activeOpacity={0.6}>
+    <TouchableOpacity style={{flex: 0.5}} activeOpacity={0.6}>
       <View style={{position: 'relative', borderRadius: 10}}>
-        <Image source={data.image} style={{width: '100%', borderRadius: 10}} />
+        <Image
+          source={{uri: data?.thumbnail_image?.imageKey}}
+          width={168}
+          height={231}
+          style={{width: '100%', borderRadius: 10}}
+        />
         <View style={styles.overlay}>
           <View>
-            <Text style={styles.titleText}>{data.text}</Text>
+            <Text style={styles.titleText}>{data?.title}</Text>
             <View style={styles.infoContainer}>
-              <Text style={styles.infoText}>{data.date}</Text>
-              <Text style={styles.infoText}>{data.time + ' min'}</Text>
+              <Text style={styles.infoText}>{timeAgo}</Text>
+              <Text style={styles.infoText}>
+                {data?.time_to_read + ' ' + 'min'}
+              </Text>
             </View>
           </View>
         </View>
@@ -47,9 +35,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     position: 'relative',
   },
-  // imageBackground: {
-  //   width: '100%',
-  // },
   overlay: {
     width: '100%',
     position: 'absolute',
@@ -75,6 +60,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '500',
     fontSize: 14,
+    textTransform: 'capitalize',
   },
 });
 
