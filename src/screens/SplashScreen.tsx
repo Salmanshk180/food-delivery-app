@@ -8,7 +8,7 @@ export default function SplashScreen() {
 
   useEffect(() => {
     setTimeout(() => {
-      navigation.navigate('Login');
+      navigation.navigate('BottomTab');
     }, 2000);
     
   }, [navigation]);

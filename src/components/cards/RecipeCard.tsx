@@ -2,7 +2,6 @@ import React from 'react';
 import {
   View,
   Text,
-  ImageSourcePropType,
   StyleSheet,
   Image,
   TouchableOpacity,
@@ -20,15 +19,7 @@ export default function RecipeCard({
   detailStyle,
   isTimer = true,
 }: {
-  recipe: {
-    name: string;
-    time: number;
-    isVeg: boolean;
-    image: ImageSourcePropType;
-    nutritions: {title: string; value: string | number}[];
-    canHaveItIn: string[];
-    ingredients: string[];
-  };
+  recipe: any;
   isTouchEffectDisabled?: boolean;
   cardStyle?: ViewStyle;
   detailStyle?: ViewStyle;
@@ -40,26 +31,38 @@ export default function RecipeCard({
       style={styles.touchable}
       activeOpacity={isTouchEffectDisabled ? 1 : 0.8}
       onPress={() => {
-        navigation.navigate('RecipeDetail', {title: recipe.name, data: recipe});
+        navigation.navigate('RecipeDetail', {
+          title: recipe.name,
+          id: recipe.id,
+        });
       }}>
       <View style={[styles.card, cardStyle]}>
-        <Image source={recipe.image} style={styles.image} />
+        <Image
+          source={{
+            uri: recipe?.thumbnail_image[0].key,
+          }}
+          style={styles.image}
+          width={353}
+          height={190}
+        />
         <View style={[styles.detailsContainer, detailStyle]}>
           <View style={styles.textContainer}>
-            <NonVeg isVeg={recipe.isVeg} />
+            <NonVeg isVeg={recipe.food_type === 'veg'} />
             <Text style={[styles.text, {flex: 1}]}>{recipe.name}</Text>
           </View>
           {isTimer ? (
             <View style={[styles.timerContainer]}>
               <Timer />
-              <Text style={styles.timerText}>{recipe.time} minutes</Text>
+              <Text style={styles.timerText}>
+                {recipe.time_to_cook} minutes
+              </Text>
             </View>
           ) : (
             <View style={styles.noTimerContainer}>
               <Text style={styles.caloriesText}>
-                {recipe.nutritions[0]?.value} Calories
+                {recipe.calories} Calories
               </Text>
-              <Text style={styles.timeText}>{recipe.time} Mins.</Text>
+              <Text style={styles.timeText}>{recipe.time_to_cook} Mins.</Text>
             </View>
           )}
         </View>

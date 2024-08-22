@@ -20,12 +20,14 @@ export default function Badge({
 }) {
   return (
     <View style={[styles.container, containerStyle]}>
-      <Text style={[styles.title, titleStyle, {color: titleColor,flex:1}]}>
+      <Text style={[styles.title, titleStyle, {color: titleColor, flex: 1}]}>
         {title}
       </Text>
-      {subTitle &&<Text style={[styles.subTitle, subTitleStyle, {color: subTitleColor}]}>
-        {subTitle}
-      </Text>}
+      {subTitle && (
+        <Text style={[styles.subTitle, subTitleStyle, {color: subTitleColor}]}>
+          {subTitle}
+        </Text>
+      )}
     </View>
   );
 }
@@ -35,10 +37,8 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderRadius: 15,
     borderColor: '#D8DADC',
-    width: 171,
-    // height: 64,
-
-    paddingVertical:10,
+    paddingVertical: 12,
+    paddingHorizontal: 22,
     backgroundColor: '#FBFAFA',
     justifyContent: 'center',
     alignItems: 'center',

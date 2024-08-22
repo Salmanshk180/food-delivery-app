@@ -18,7 +18,7 @@ export type RootStackParamList = {
   BottomTab: undefined;
   Login: undefined;
   Recipes: undefined;
-  RecipeDetail: {title: string; data: any};
+  RecipeDetail: {title: string; id: string};
   AddRecipe: undefined;
   ImageView: {source: string};
   Verification: undefined;

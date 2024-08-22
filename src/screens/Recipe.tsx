@@ -7,6 +7,7 @@ import {
   ScrollView,
   FlatList,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import Search from '../assets/Search';
 import Filter from '../assets/Filter';
@@ -18,14 +19,18 @@ import {
   TIME_TO_MAKE,
 } from '../constants/category';
 import RecipeCard from '../components/cards/RecipeCard';
-import {useCallback, useRef, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import CustomBottomSheet from '../components/BottomSheet/BottomSheet';
 import {BottomSheetMethods} from '@gorhom/bottom-sheet/lib/typescript/types';
 import Filters from '../components/Filters/Filters';
+import {supabase} from '../supabaseClient';
 
 const Recipes = () => {
   const bottomSheetRef = useRef<BottomSheetMethods>(null);
+  const [recipes, setRecipes] = useState<any[]>([]);
   const [isOpen, setIsOPen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const OpenBottomSheet = useCallback(() => {
     setIsOPen(!isOpen);
     bottomSheetRef.current?.expand();
@@ -35,7 +40,25 @@ const Recipes = () => {
     setIsOPen(!isOpen);
   }, []);
   const [checkedValues, setCheckedValues] = useState<string[]>([]);
-  const {width} = Dimensions.get('screen');
+  async function getRecipes() {
+    try {
+      setLoading(true);
+      let {data: recipes, error} = await supabase.from('recipes').select('*');
+      if (recipes && recipes.length > 0) {
+        setRecipes(recipes as any[]);
+      } else {
+        setError('Recipes not found');
+      }
+    } catch (error: any) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getRecipes();
+  }, []);
   return (
     <>
       <View style={styles.container}>
@@ -67,11 +90,37 @@ const Recipes = () => {
           />
         </View>
         <View style={{flex: 1}}>
-          <FlatList
-            data={RECIPES}
-            contentContainerStyle={{paddingHorizontal: 20}}
-            renderItem={({item}) => <RecipeCard recipe={item} />}
-          />
+          {loading ? (
+            <View style={{flex: 1, justifyContent: 'center'}}>
+              <ActivityIndicator size="large" color="#76BC3F" />
+            </View>
+          ) : (
+            <>
+              {error ? (
+                <View style={styles.errorContainer}>
+                  <Text style={styles.errorText}>{error}</Text>
+                </View>
+              ) : (
+                <FlatList
+                  data={recipes}
+                  ListEmptyComponent={() => (
+                    <View style={{flex: 1, alignItems: 'center'}}>
+                      <Text style={{color: '#000'}}>No Data</Text>
+                    </View>
+                  )}
+                  ListFooterComponent={() => (
+                    <View>
+                      <Text style={{color: '#76BC3F', textAlign: 'center'}}>
+                        You see all the data
+                      </Text>
+                    </View>
+                  )}
+                  contentContainerStyle={{paddingHorizontal: 20}}
+                  renderItem={({item}) => <RecipeCard recipe={item} />}
+                />
+              )}
+            </>
+          )}
         </View>
       </View>
       {isOpen && (
@@ -124,7 +173,6 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flexDirection: 'row',
-    // width: '100%',
     paddingHorizontal: 20,
     justifyContent: 'space-between',
     gap: 12,
@@ -140,6 +188,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 18,
+    textAlign: 'center',
   },
   textInput: {
     padding: 0,

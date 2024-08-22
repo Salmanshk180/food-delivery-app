@@ -7,88 +7,155 @@ import {
   TouchableOpacity,
   FlatList,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Badge from '../components/Badge/Badge';
-import {RECIPES} from '../constants/category';
 import RecipeCard from '../components/cards/RecipeCard';
+import {supabase} from '../supabaseClient';
+import RoundedBadge from '../components/roundedBadge/RoundedBadge';
 
 export default function RecipeDetail({route}: any) {
-  const {data} = route.params;
+  const {id} = route.params;
   const {width} = Dimensions.get('screen');
+  const [recipe, setRecipe] = useState<any>(null);
+  const [ingredients, setIngredients] = useState<any>([]);
+  const [error, setError] = useState<string | undefined | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [similar_recipes, setSimilarRecipes] = useState<any>();
+  const getRecipe = async () => {
+    try {
+      setLoading(true);
+      let {data, error} = await supabase
+        .from('recipes')
+        .select('*')
+        .eq('id', id);
+      if (data && data.length > 0) {
+        setRecipe(data[0]);
+      } else {
+        setError(error?.message);
+      }
+    } catch (err: any) {
+      setError(err.message || 'Error fetching recipe');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getRecipeIngredients = async () => {
+    let {data: recipe_ingredients, error} = await supabase
+      .from('recipe_ingredients')
+      .select('ingredients(id,name)')
+      .eq('recipe_id', id);
+    if (error) {
+      setError(error.message || 'Error fetching ingredients');
+    } else {
+      setIngredients(recipe_ingredients);
+    }
+  };
+  const getSimilarRecipes = async () => {
+    let {data} = await supabase
+      .from('recipes')
+      .select('*')
+      .eq('food_type', recipe.food_type)
+      .neq('id', recipe.id);
+    setSimilarRecipes(data);
+  };
+  useEffect(() => {
+    getRecipe();
+    getRecipeIngredients();
+  }, [id]);
+
+  useEffect(() => {
+    if (recipe) {
+      getSimilarRecipes();
+    }
+  }, [recipe]);
+
+  if (loading) {
+    return (
+      <View style={{flex: 1, justifyContent: 'center'}}>
+        <ActivityIndicator size="large" color="#76BC3F" />
+      </View>
+    );
+  }
+  if (error === undefined || error) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>{error ?? 'Recipe Not Found'}</Text>
+      </View>
+    );
+  }
+
   return (
-    <ScrollView>
+    <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <View style={styles.container}>
-        <Image source={data?.image} style={{borderRadius: 5, margin: 'auto'}} />
+        {recipe?.thumbnail_image && (
+          <Image
+            source={{uri: recipe.thumbnail_image[0].key}}
+            style={{borderRadius: 5, margin: 'auto'}}
+            width={353}
+            height={229}
+          />
+        )}
+
         <View style={styles.detailContainer}>
           <Badge
-            title={data.time + ' min.'}
+            title={(recipe?.time_to_cook ?? 0) + ' ' + 'min.'}
             titleColor="#76BC3F"
             subTitle="Time to cook"
+            containerStyle={{flex: 1}}
           />
           <Badge
-            title={data.isVeg ? 'Veg' : 'Non veg'}
-            titleColor={data.isVeg ? '#76BC3F' : '#E64646'}
+            title={recipe?.food_type ?? 'Not Specified'}
+            titleColor={recipe?.food_type === 'veg' ? '#76BC3F' : '#E64646'}
             subTitle="Meal Type"
+            containerStyle={{flex: 1}}
           />
         </View>
         <View style={styles.nutritionsContainer}>
           <Text style={{color: '#18270B', fontSize: 18, fontWeight: '800'}}>
             Nutritions
           </Text>
-          <FlatList
-            data={data?.nutritions}
-            columnWrapperStyle={{justifyContent: 'space-between'}}
-            contentContainerStyle={{gap: 10}}
-            numColumns={2}
-            renderItem={({item}) => (
-              <Badge
-                title={item.title}
-                titleColor="#18270B"
-                subTitleColor="#76BC3F"
-                subTitle={item.value}
-                containerStyle={styles.nutritionBadge}
-                titleStyle={styles.nutritionBadgeTitle}
-                subTitleStyle={styles.nutritionBadgeSubTitle}
-              />
-            )}
-          />
+          <View
+            style={{
+              flexDirection: 'row',
+              gap: 23,
+            }}>
+            <RoundedBadge text={'Calories'} value={recipe?.calories ?? 0} />
+            <RoundedBadge
+              text={'Protein'}
+              value={recipe?.protein ?? 0 + ' ' + 'gm'}
+            />
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              gap: 23,
+            }}>
+            <RoundedBadge
+              text={'Carbs'}
+              value={recipe?.carbs ?? 0 + ' ' + 'gm'}
+            />
+            <RoundedBadge text={'Fat'} value={recipe?.fat ?? 0 + ' ' + 'gm'} />
+          </View>
         </View>
         <View style={styles.nutritionsContainer}>
           <Text style={{color: '#18270B', fontSize: 18, fontWeight: '800'}}>
             Can have it in
           </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              // justifyContent: 'flex-start',
-              gap: 11,
-            }}>
-            {data?.canHaveItIn.map((data: any, index: number) => (
-              <Badge
-                title={data}
-                titleColor="#18270B"
-                containerStyle={styles.canHaveItInBadge}
-                titleStyle={styles.nutritionBadgeTitle}
-                subTitleStyle={styles.nutritionBadgeSubTitle}
-                key={index}
-              />
-            ))}
-          </View>
-        </View>
-        <View style={styles.nutritionsContainer}>
-          <Text style={{color: '#18270B', fontSize: 18, fontWeight: '800'}}>
-            Ingredients
-          </Text>
           <FlatList
-            data={data?.ingredients}
-            // contentContainerStyle={{gap: 11}}
-            // columnWrapperStyle={{justifyContent:'space-between' }}
+            data={recipe?.can_have}
             numColumns={3}
+            ListEmptyComponent={() => (
+              <View>
+                <Text style={{color: '#000', textAlign: 'center'}}>
+                  No Data
+                </Text>
+              </View>
+            )}
             contentContainerStyle={{gap: 10}}
             columnWrapperStyle={{gap: 10, flexWrap: 'wrap'}}
-            // horizontal
             renderItem={({item}) => (
               <Badge
                 title={item}
@@ -100,17 +167,39 @@ export default function RecipeDetail({route}: any) {
             )}
           />
         </View>
-        <View
-          style={{
-            gap: 14,
-          }}>
+        <View style={styles.nutritionsContainer}>
+          <Text style={{color: '#18270B', fontSize: 18, fontWeight: '800'}}>
+            Ingredients
+          </Text>
+          <FlatList
+            data={ingredients}
+            numColumns={3}
+            contentContainerStyle={{gap: 10, flex: 1}}
+            ListEmptyComponent={() => (
+              <View>
+                <Text style={{color: '#000', textAlign: 'center'}}>
+                  No Ingredients
+                </Text>
+              </View>
+            )}
+            columnWrapperStyle={{gap: 10}}
+            renderItem={({item}) => (
+              <Badge
+                title={item.ingredients.name}
+                titleColor="#18270B"
+                containerStyle={styles.canHaveItInBadge}
+                titleStyle={styles.nutritionBadgeTitle}
+                subTitleStyle={styles.nutritionBadgeSubTitle}
+              />
+            )}
+          />
+        </View>
+        <View style={{gap: 14}}>
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              // width: '100%',
-              
               paddingHorizontal: 20,
             }}>
             <Text style={{color: '#18270B', fontSize: 18, fontWeight: '800'}}>
@@ -121,9 +210,16 @@ export default function RecipeDetail({route}: any) {
             </TouchableOpacity>
           </View>
           <FlatList
-            data={RECIPES}
+            data={similar_recipes}
             horizontal
             contentContainerStyle={{paddingHorizontal: 20, gap: 18}}
+            ListEmptyComponent={() => (
+              <View style={{width: width * 0.9}}>
+                <Text style={{color: '#000', textAlign: 'center'}}>
+                  No Similar Recipe
+                </Text>
+              </View>
+            )}
             renderItem={({item}) => (
               <View style={{width: width * 0.8}}>
                 <RecipeCard
@@ -144,10 +240,20 @@ export default function RecipeDetail({route}: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-start',
     gap: 24,
     paddingTop: 14,
     backgroundColor: '#fff',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 18,
+    textAlign: 'center',
   },
   detailContainer: {
     flexDirection: 'row',
@@ -180,7 +286,5 @@ const styles = StyleSheet.create({
   canHaveItInBadge: {
     backgroundColor: '#F1F8EC',
     borderRadius: 8,
-    maxWidth: 111,
-    // maxHeight: 46,
   },
 });
